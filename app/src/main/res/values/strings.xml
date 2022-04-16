@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Profile</string>
+
+    <!-- Starting page -->
+    <string name="tv_start">To start the test just create a new profile</string>
+    <string name="btt_create_prof">New Profile</string>
+
+    <!-- New Profile page -->
+    <string name="tv_np_intro">Insert your personal data:</string>
+    <string name="et_name">Name</string>
+    <string name="et_surname">Surname</string>
+    <string name="tv_birthday">Birthday</string>
+    <string name="btt_create">Start</string>
+
+</resources>

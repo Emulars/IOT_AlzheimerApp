@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".NewProfile"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_np_intro"
+            android:textSize="25dp"
+            android:textAlignment="center"
+            android:paddingHorizontal="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="50dp">
+        </TextView>
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:textSize="20dp"
+            android:hint="@string/et_name"
+            android:layout_gravity="center_horizontal">
+        </EditText>
+
+        <EditText
+            android:id="@+id/surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:textSize="20dp"
+            android:hint="@string/et_surname"
+            android:layout_gravity="center_horizontal">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:textSize="20dp"
+            android:text="@string/tv_birthday">
+        </TextView>
+
+        <!--https://www.tutlane.com/tutorial/android/android-datepicker-with-examples-->
+        <DatePicker
+            android:id="@+id/birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="30dp"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false">
+        </DatePicker>
+
+        <Button
+            android:id="@+id/btt_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/btt_create"
+            android:textSize="15dp">
+        </Button>
+    </LinearLayout>
+</ScrollView>
