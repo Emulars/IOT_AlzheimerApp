@@ -1,11 +1,13 @@
 import json
 import numpy as np
 import tensorflow as tf
+from tensorflow import keras, lite
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
 DATA_PATH = "ML/data.json"
-SAVED_MODEL_PATH = "ML/model.h5"
+SAVED_MODEL_PATH_M5 = "ML/model.h5"
+SAVED_MODEL_PATH_TFLITE = "ML/model.tflite"
 EPOCHS = 40
 BATCH_SIZE = 32
 PATIENCE = 5
@@ -173,8 +175,13 @@ def main():
     test_loss, test_acc = model.evaluate(X_test, y_test)
     print("\nTest loss: {}, test accuracy: {}".format(test_loss, 100*test_acc))
 
-    # save model
-    model.save(SAVED_MODEL_PATH)
+    # save M5 model
+    model.save(SAVED_MODEL_PATH_M5)
+
+    # Convert to tensorflow lite model
+    converter = lite.TFLiteConverter.from_keras_model(model)
+    tfmodel = converter.convert()
+    open(SAVED_MODEL_PATH_TFLITE, "wb").write(tfmodel)
 
 
 if __name__ == "__main__":
