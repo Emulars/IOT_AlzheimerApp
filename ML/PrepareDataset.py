@@ -2,7 +2,7 @@ import librosa
 import os
 import json
 
-DATASET_PATH = "ML/dataset"
+DATASET_PATH = "ML/dataset/languages" # Default folder "ML/dataset" 
 JSON_PATH = "ML/data.json"
 SAMPLES_TO_CONSIDER = 22050 # 1 sec. of audio
 
