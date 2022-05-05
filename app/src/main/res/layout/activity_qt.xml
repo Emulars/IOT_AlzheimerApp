@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@drawable/sfondo_qt">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/question1"
+        android:textAlignment="center"
+        android:paddingHorizontal="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="50dp">
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/name"
+        android:textAlignment="center"
+        android:paddingHorizontal="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="50dp">
+    </TextView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btt_mic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/microfono_btsu"
+        android:layout_marginTop="300dp"
+        android:paddingTop="100dp" />
+
+
+</LinearLayout>

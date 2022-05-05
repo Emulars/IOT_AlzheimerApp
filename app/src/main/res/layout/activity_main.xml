@@ -6,27 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:layout_gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/sfondo">
 
-    <TextView
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text= "@string/tv_start"
-        android:textSize="25dp"
-        android:textAlignment="center"
-        android:paddingHorizontal="20dp"
+        app:srcCompat="@drawable/logo"
         android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="50dp">
-    </TextView>>
+        android:paddingTop="100dp"
+        />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btt_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/btt_create_prof"
-        android:textSize="15dp">
-    </Button>
+        android:background="@drawable/bt_iniz"
+        android:paddingTop="100dp" />
+
+
 
 
 </LinearLayout>
