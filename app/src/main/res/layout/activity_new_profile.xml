@@ -41,15 +41,7 @@
             android:hint="Surname"
             android:textColorHint="@color/white"
             android:textSize="20dp"></EditText>
-        <EditText
-            android:id="@+id/age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:ems="10"
-            android:hint="Age"
-            android:textColorHint="@color/white"
-            android:textSize="20dp"></EditText>
+
         <EditText
             android:id="@+id/job"
             android:layout_width="wrap_content"

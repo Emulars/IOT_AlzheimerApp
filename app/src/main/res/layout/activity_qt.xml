@@ -31,9 +31,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
         android:background="@drawable/microfono_btsu"
-        android:layout_marginTop="300dp"
         android:paddingTop="100dp" />
 
-
+    <Button
+        android:id="@+id/btt_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="100dp"
+        android:layout_marginLeft="100dp"
+        android:text="Stop" />
 </LinearLayout>
