@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sblumbo</string>
+    <string name="app_name">Test</string>
 
     <!-- Starting page -->
     <string name="tv_start">To start the test just create a new profile</string>

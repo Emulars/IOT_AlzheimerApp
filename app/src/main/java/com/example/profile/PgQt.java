@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import java.io.File;
 import java.io.IOException;
 
 public class PgQt extends AppCompatActivity {
@@ -39,7 +40,6 @@ public class PgQt extends AppCompatActivity {
         myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         myAudioRecorder.setOutputFile(outputFile);
 
-
         btt_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,8 +48,10 @@ public class PgQt extends AppCompatActivity {
                     myAudioRecorder.start();
                 }catch (IllegalStateException e){
                     Log.i(TAG, "IllegalStateException");
+                    e.printStackTrace();
                 } catch (IOException e){
                     Log.i(TAG, "IOException");
+                    e.printStackTrace();
                 }
                 Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
             }
@@ -58,7 +60,13 @@ public class PgQt extends AppCompatActivity {
         btt_Stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myAudioRecorder.stop();
+                try {
+                    myAudioRecorder.stop();
+                }catch (IllegalStateException e){
+                    Log.i(TAG, "IllegalStateException");
+                    e.printStackTrace();
+                }
+
                 myAudioRecorder.reset();
                 myAudioRecorder.release();
                 myAudioRecorder = null;
