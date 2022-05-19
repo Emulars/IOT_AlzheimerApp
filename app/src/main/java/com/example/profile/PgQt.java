@@ -1,6 +1,10 @@
 package com.example.profile;
 
+import android.Manifest;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,61 +24,72 @@ import java.io.IOException;
 public class PgQt extends AppCompatActivity {
 
     private final String TAG = "PgQt";
-    Button btt_start = null;
-    Button btt_Stop = null;
 
-    // Audio
-    private String outputFile;
-    private MediaRecorder myAudioRecorder;
-
+    private static int MICROPHONE_PERMISSION_CODE=200;
+    MediaRecorder mediaRecorder;
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qt);
-        btt_start = findViewById(R.id.btt_mic);
-        btt_Stop = findViewById(R.id.btt_stop);
 
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
-
-        myAudioRecorder = new MediaRecorder();
-        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        myAudioRecorder.setOutputFile(outputFile);
-
-        btt_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    myAudioRecorder.prepare();
-                    myAudioRecorder.start();
-                }catch (IllegalStateException e){
-                    Log.i(TAG, "IllegalStateException");
-                    e.printStackTrace();
-                } catch (IOException e){
-                    Log.i(TAG, "IOException");
-                    e.printStackTrace();
-                }
-                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        btt_Stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    myAudioRecorder.stop();
-                }catch (IllegalStateException e){
-                    Log.i(TAG, "IllegalStateException");
-                    e.printStackTrace();
-                }
-
-                myAudioRecorder.reset();
-                myAudioRecorder.release();
-                myAudioRecorder = null;
-                Toast.makeText(getApplicationContext(), "Audio Recorder successfully", Toast.LENGTH_LONG).show();
-            }
-        });
-
+        if(isMicrophonePresent()){
+            getMicrophonePermission();
+        }
     }
+    public void  btnRecordPressed(View view){
+        try {
+            mediaRecorder= new MediaRecorder();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setOutputFile(getRecordingFilePath());
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.prepare();
+            mediaRecorder.start();
+            Toast.makeText(this, "Recording is started", Toast.LENGTH_LONG).show();
+
+            Log.i("File pos: ",getRecordingFilePath());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void  btnStopPressed(View view){
+        mediaRecorder.stop();
+        mediaRecorder.reset();
+        mediaRecorder.release();
+        mediaRecorder=null;
+        Toast.makeText(this, "Recording is stopped", Toast.LENGTH_LONG).show();
+    }
+    public void btnPlayPressed(View view){
+        try {
+            mediaPlayer= new MediaPlayer();
+            mediaPlayer.setDataSource(getRecordingFilePath());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(this, "Recording is playing", Toast.LENGTH_LONG).show();
+    }
+
+    private boolean isMicrophonePresent(){
+        if(this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)){
+            return true;
+        }else{
+            return false;
+        }
+    }//per vedre se il micofono è presente
+    private void getMicrophonePermission(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)== PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MICROPHONE_PERMISSION_CODE);
+        }
+    }
+    private String getRecordingFilePath(){
+        ContextWrapper contextWrapper= new ContextWrapper(getApplicationContext());
+        File musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+        File file = new File(musicDirectory, "testRecordingFile" + ".wav");
+        return file.getPath();
+    }
+
 }

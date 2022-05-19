@@ -33,7 +33,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:background="@drawable/microfono_btsu"
-        android:paddingTop="100dp" />
+        android:paddingTop="100dp"
+        android:onClick="btnRecordPressed"/>
 
     <Button
         android:id="@+id/btt_stop"
@@ -41,5 +42,15 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="100dp"
         android:layout_marginLeft="100dp"
-        android:text="Stop" />
+        android:text="Stop"
+        android:onClick="btnStopPressed"/>
+
+    <Button
+        android:id="@+id/btt_play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="100dp"
+        android:layout_marginLeft="100dp"
+        android:text="Play"
+        android:onClick="btnPlayPressed"/>
 </LinearLayout>
