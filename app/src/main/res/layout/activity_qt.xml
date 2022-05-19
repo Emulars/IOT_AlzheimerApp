@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:background="@drawable/sfondo_qt">
 
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,17 +15,18 @@
         android:paddingHorizontal="20dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginVertical="50dp">
-    </TextView>
+    </TextView>-->
 
     <TextView
+        android:id="@+id/tv_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/name"
-        android:textAlignment="center"
-        android:paddingHorizontal="20dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="50dp">
-    </TextView>
+        android:layout_marginVertical="50dp"
+        android:paddingHorizontal="20dp"
+        android:text="@string/question"
+        android:textSize="30dp"
+        android:textAlignment="center"></TextView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btt_mic"
@@ -53,4 +55,13 @@
         android:layout_marginLeft="100dp"
         android:text="Play"
         android:onClick="btnPlayPressed"/>
+
+    <Button
+        android:id="@+id/btt_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="100dp"
+        android:layout_marginLeft="100dp"
+        android:text="Next"
+        android:onClick="btnNextPressed"/>
 </LinearLayout>

@@ -12,4 +12,7 @@
     <string name="tv_birthday">Birthday</string>
     <string name="btt_create">Start</string>
 
+    <!-- Questions page -->
+    <string name="question">Come ti chiami ?</string>
+
 </resources>
