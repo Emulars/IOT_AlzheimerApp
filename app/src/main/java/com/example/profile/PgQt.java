@@ -30,7 +30,6 @@ import Utility.Question;
 
 // TODO:
 // - Disabilitare bottoni prima della registrazione
-// - Capire perché la prima volta il bottone next va premuto due volte
 // - Rimuovere variabile globale currentQuestion
 // - Per profilazione potremmo usare Hashtable
 
@@ -38,15 +37,16 @@ public class PgQt extends AppCompatActivity {
 
     private final String TAG = "PgQt";
     TextView tv_question = null;
-    Question currentQuestion = null;
-    String filePath = "";
+    Button btt_record, btt_stop, btt_play, btt_next = null;
 
     // Audio
     private static int MICROPHONE_PERMISSION_CODE=200;
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
+    String filePath = "";
 
     // Question
+    Question currentQuestion = null;
     private ArrayList<Question> questions = new ArrayList<Question>();
     Iterator questionIterator = null;
 
@@ -89,6 +89,11 @@ public class PgQt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qt);
 
+        btt_record = findViewById(R.id.btt_mic);
+        btt_stop =  findViewById(R.id.btt_stop);
+        btt_play =  findViewById(R.id.btt_play);
+        btt_next =  findViewById(R.id.btt_next);
+
         fillQuestions(questions);
 
         if(isMicrophonePresent()){
@@ -106,9 +111,22 @@ public class PgQt extends AppCompatActivity {
             filePath = currentQuestion.getFilePath();
         }
         // TODO: else arrivato alla fine cambio schermato con resoconto
+
+        // Disable Stop and Play button
+        btt_stop.setEnabled(false);
+        btt_play.setEnabled(false);
+
+        // enable recording button
+        btt_record.setEnabled(true);
+        btt_record.setVisibility(View.VISIBLE);
     }
 
     public void btnRecordPressed(View view){
+
+        // Enable Stop button
+        btt_stop.setEnabled(true);
+        btt_stop.setVisibility(View.VISIBLE);
+
         try {
             mediaRecorder= new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -131,6 +149,10 @@ public class PgQt extends AppCompatActivity {
         mediaRecorder.release();
         mediaRecorder=null;
         Toast.makeText(this, "Recording is stopped", Toast.LENGTH_LONG).show();
+
+        // Enable play button
+        btt_play.setEnabled(true);
+        btt_play.setVisibility(View.VISIBLE);
     }
     public void btnPlayPressed(View view){
         try {

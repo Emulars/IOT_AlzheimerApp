@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:background="@drawable/sfondo_qt">
 
-    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,17 +14,18 @@
         android:paddingHorizontal="20dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginVertical="50dp">
-    </TextView>-->
+    </TextView>
 
     <TextView
         android:id="@+id/tv_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="50dp"
+        android:layout_marginVertical="20dp"
         android:paddingHorizontal="20dp"
         android:text="@string/question"
         android:textSize="30dp"
+        android:textColor="@color/white"
         android:textAlignment="center"></TextView>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -33,10 +33,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="35dp"
         android:background="@drawable/microfono_btsu"
         android:paddingTop="100dp"
-        android:onClick="btnRecordPressed"/>
+        android:onClick="btnRecordPressed"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btt_stop"
@@ -45,7 +46,8 @@
         android:layout_marginRight="100dp"
         android:layout_marginLeft="100dp"
         android:text="Stop"
-        android:onClick="btnStopPressed"/>
+        android:onClick="btnStopPressed"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btt_play"
@@ -54,7 +56,8 @@
         android:layout_marginRight="100dp"
         android:layout_marginLeft="100dp"
         android:text="Play"
-        android:onClick="btnPlayPressed"/>
+        android:onClick="btnPlayPressed"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btt_next"

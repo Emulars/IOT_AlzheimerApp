@@ -13,6 +13,6 @@
     <string name="btt_create">Start</string>
 
     <!-- Questions page -->
-    <string name="question">Come ti chiami ?</string>
+    <string name="question">Press next to start</string>
 
 </resources>
