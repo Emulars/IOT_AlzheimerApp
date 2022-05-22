@@ -1,5 +1,4 @@
 dataset.tar.gz
-ML/dataset/
 ML/data.json
 *.iml
 .gradle
