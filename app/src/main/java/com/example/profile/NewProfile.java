@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
@@ -42,7 +43,11 @@ public class NewProfile extends AppCompatActivity {
             public void onClick(View view) {
                 fillProfile();
                 Log.i(TAG, TAG + ": OnClick");
-                startActivity(new Intent(NewProfile.this, PgQt.class));
+
+                if(profileData.get("Name").isEmpty() || profileData.get("Surname").isEmpty() || profileData.get("Job").isEmpty() || profileData.get("Birthplace").isEmpty())
+                    Toast.makeText(getApplicationContext(), "Insert your personal data!", Toast.LENGTH_LONG).show();
+                else
+                    startActivity(new Intent(NewProfile.this, PgQt.class));
             }
         });
     }
