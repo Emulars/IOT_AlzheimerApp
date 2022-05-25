@@ -4,7 +4,14 @@ import tensorflow as tf
 from tensorflow import keras, lite
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from config import *
+
+JSON_PATH = "ML/data.json"
+SAVED_MODEL_PATH_M5 = "ML/classifier/languages_model.h5"
+SAVED_MODEL_PATH_TFLITE = "ML/classifier/languages_model.tflite"
+EPOCHS = 40
+BATCH_SIZE = 32
+PATIENCE = 5
+LEARNING_RATE = 0.0001
 
 
 def load_data(data_path):

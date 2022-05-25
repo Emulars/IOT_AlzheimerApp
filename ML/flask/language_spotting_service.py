@@ -1,22 +1,15 @@
 import librosa
 import tensorflow as tf
 import numpy as np
-from config import *
 
-class _Keyword_Spotting_Service:
+SAVED_MODEL_PATH_LANG = "languages_model.h5"
+SAVED_MODEL_PATH_S2T = "speech2text_model.h5"
+SAMPLES_TO_CONSIDER = 22050
+
+class _Language_Spotting_Service:
 
     model = None
-    _mapping = ["Agosto", "Aprile", "Autista", "Autunno", "Avvocato", "Benedetto_Sedicesimo", "Celeste",
-                  "Cento", "Cinquanta", "Cinque", "Davide", "Dicembre", "Diciannove", "Diciassette", "Diciotto", "Dieci",
-                  "Dodici", "Domenica", "Due", "Duemila", "Duemilaventi", "Duemilaventidue", 'Duemilaventuno', "Estate",
-                  "Febbraio", "Filippo", "Firenze", "Francesco", "Gennaio", "Genova", "Giorgio", "Giovanni_Paolo_Secondo",
-                  "Giovedì", "Giugno", "Insegnante", "Inverno", "Luglio", "Lunedì", "Maggio", "Mario", "Martedì", "Marzo",
-                  "Matita", "Mattarella", "Mattina", "Mercoledì", "Millenovecento", "Millenovecentodiciotto", "Millenovecentoquarantacinque",
-                  "Millenovecentoquattordici", "Millenovecentotrentanove", "Napoli", "Napolitano", "Notte", "Novanta", "Nove", "Novembre",
-                  "Ottanta", "Otto", "Ottobre", "Palla", "Piatto", "Pomeriggio", "Pompiere", "Primavera", "Quaranta", "Quattordici", "Quattro",
-                  "Quindici", "Sabato", "Sedici", "Sei", "Sera", "Sergio", "Sessanta", "Settanta", "Sette", "Settembre", "Tre", "Tredici",
-                  "Trenta", "Trentuno", "Undici", "Uno", "Venerdì", "Venezia", "Venti", "Venticinque", "Ventidue", "Ventinove", "Ventiquattro",
-                  "Ventisei", "Ventisette", "Ventitre", "Ventotto", "Ventuno"]
+    _mapping = ["EN", "FR", "IT"]
     _instance = None
 
     def predict(self, file_path):
@@ -54,18 +47,18 @@ class _Keyword_Spotting_Service:
         return MFCCs.T
 
 
-def Keyword_Spotting_Service():
+def Language_Spotting_Service():
     # ensure an instance is created only the first time the factory function is called
-    if _Keyword_Spotting_Service._instance is None:
-        _Keyword_Spotting_Service._instance = _Keyword_Spotting_Service()
-        _Keyword_Spotting_Service.model = tf.keras.models.load_model(SAVED_MODEL_PATH_S2T)
-    return _Keyword_Spotting_Service._instance
+    if _Language_Spotting_Service._instance is None:
+        _Language_Spotting_Service._instance = _Language_Spotting_Service()
+        _Language_Spotting_Service.model = tf.keras.models.load_model(SAVED_MODEL_PATH_LANG)
+    return _Language_Spotting_Service._instance
 
 if __name__ == "__main__":
 
     # create 2 instances of the keyword spotting service
-    kss = Keyword_Spotting_Service()
-    kss1 = Keyword_Spotting_Service()
+    kss = Language_Spotting_Service()
+    kss1 = Language_Spotting_Service()
 
     # check that different instances of the keyword spotting service point back to the same object (singleton)
     assert kss is kss1
