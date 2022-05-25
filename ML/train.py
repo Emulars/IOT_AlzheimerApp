@@ -4,14 +4,7 @@ import tensorflow as tf
 from tensorflow import keras, lite
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-
-DATA_PATH = "ML/data.json"
-SAVED_MODEL_PATH_M5 = "ML/model.h5"
-SAVED_MODEL_PATH_TFLITE = "ML/model.tflite"
-EPOCHS = 40
-BATCH_SIZE = 32
-PATIENCE = 5
-LEARNING_RATE = 0.0001
+from config import *
 
 
 def load_data(data_path):
@@ -159,7 +152,7 @@ def plot_history(history):
 
 def main():
     # generate train, validation and test sets
-    X_train, y_train, X_validation, y_validation, X_test, y_test = prepare_dataset(DATA_PATH)
+    X_train, y_train, X_validation, y_validation, X_test, y_test = prepare_dataset(JSON_PATH)
 
     # create network
     input_shape = (X_train.shape[1], X_train.shape[2], 1)

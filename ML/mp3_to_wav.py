@@ -1,7 +1,7 @@
 import os
 from pydub import AudioSegment
 
-FOLDERS = ["EN"]
+FOLDERS = ["EN", "FR", "IT"]
 MP3s_PATH = "ML/dataset/"
 WAVs_PATH = "ML/dataset/languages/"
 
