@@ -1,5 +1,6 @@
 dataset.tar.gz
 ML/data.json
+ML/dataset/
 *.iml
 .gradle
 /local.properties
