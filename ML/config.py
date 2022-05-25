@@ -13,5 +13,6 @@ PATIENCE = 5
 LEARNING_RATE = 0.0001
 
 # Keyword_spotting_service.py
-SAVED_MODEL_PATH = "languages_model.h5"
+SAVED_MODEL_PATH_LANG = "languages_model.h5"
+SAVED_MODEL_PATH_S2T = "speech2text_model.h5"
 #SAMPLES_TO_CONSIDER = 22050
