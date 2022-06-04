@@ -18,7 +18,18 @@ speech_list_IT = ["Agosto", "Aprile", "Autista", "Autunno", "Avvocato", "Benedet
                   "Ventisei", "Ventisette", "Ventitre", "Ventotto", "Ventuno"]
 
 
-speech_list_EN = []
+speech_list_EN = ["August", "April", "Driver", "Autumn", "Lawyer", "Celestial",
+                  "Hundred", "Fifty", "Five", "Dave", "December", "Nineteen", "Seventeen", "Eighteen", "Ten",
+                  "Twelve", "Sunday", "Two", "Two_Thousand", "Two_Thousand_Twenty", "Two_Thousand_Twenty_Two", "Two_Thousand_Twenty_One", "Summer",
+                  "February", "Philipp", "Florence", "January", "Genoa", 
+                  "Thursday", "June", "Teacher", "Winter", "July", "Monday", "May", "Tuesday", "March",
+                  "Pencil", "Morning", "Wednesday", "Nineteen_Hundred", "Nineteen_Hundred_Eighteen", "Nineteen_Hundred_Forty_Five",
+                  "Nineteen_Hundred_Fourteen", "Nineteen_Hundred_Thirty_Nine", "Naples", "Night", "Ninety", "Nine", "November",
+                  "Eighty", "Eight", "October", "Ball", "Plate", "Afternoon", "Fireman", "Spring", "Forty", "Fourteen", "Four",
+                  "Fifteen", "Saturday", "Sixteen", "Six", "Evening", "Sixty", "Seventy", "Seven", "September", "Three", "Thirteen",
+                  "Thirty", "Thirty_One", "Eleven", "One", "Friday", "Venice", "Twenty", "Twenty_Five", "Twenty_Two", "Twenty_Nine", "Twenty_Four",
+                  "Twenty_Six", "Twenty_Seven", "Twenty_Three", "Twenty_Eight", "Twenty_One"]
+
 speech_list_FR = []
 
 ############################################################
