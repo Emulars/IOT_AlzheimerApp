@@ -5,13 +5,17 @@ from tensorflow import keras, lite
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-JSON_PATH = "ML/data.json"
-SAVED_MODEL_PATH_M5 = "ML/classifier/languages_model.h5"
-SAVED_MODEL_PATH_TFLITE = "ML/classifier/languages_model.tflite"
-EPOCHS = 40
+JSON_PATH = "data.json"
+
+# Language Model: "ML/classifier/languages_model.h5"
+# Speech to text Model: "ML/classifier/speech2text_model.h5"
+SAVED_MODEL_PATH_M5 = "speech2text_model.h5"
+SAVED_MODEL_PATH_TFLITE = "speech2text_model.tflite"
+EPOCHS = 80
 BATCH_SIZE = 32
 PATIENCE = 5
 LEARNING_RATE = 0.0001
+NUM_KEYWORDS = 11
 
 
 def load_data(data_path):
@@ -92,7 +96,7 @@ def build_model(input_shape, loss="sparse_categorical_crossentropy", learning_ra
     tf.keras.layers.Dropout(0.3)
 
     # softmax output layer
-    model.add(tf.keras.layers.Dense(10, activation='softmax'))
+    model.add(tf.keras.layers.Dense(NUM_KEYWORDS, activation='softmax'))
 
     optimiser = tf.optimizers.Adam(learning_rate=learning_rate)
 

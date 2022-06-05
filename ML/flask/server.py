@@ -25,9 +25,7 @@ def predict():
 	audio_file.save(file_name)
 
 	# instantiate keyword spotting service singleton and get prediction
-	# TODO: un-comment line 29 and delete line 30
-	#kss1 = Keyword_Spotting_Service()
-	kss1 = Language_Spotting_Service()
+	kss1 = Keyword_Spotting_Service()
 	predicted_keyword = kss1.predict(file_name)
 
 	# instantiate language spotting service singleton and get prediction

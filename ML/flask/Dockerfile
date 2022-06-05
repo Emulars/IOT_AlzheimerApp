@@ -1,5 +1,8 @@
 # Pull tensorflow image with Python3
-FROM tensorflow/tensorflow:2.1.0-py3
+FROM tensorflow/tensorflow:latest
+
+ENV TZ=Europe/Kiev
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Set the working directory to /app
 WORKDIR /app
@@ -8,10 +11,10 @@ WORKDIR /app
 ADD . /app
 
 # Install audio libraries
-RUN apt-get update && apt-get install -y libsndfile1 libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 ffmpeg
+RUN apt-get update && pip install --upgrade pip && apt-get install -y libsndfile1 libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 ffmpeg
 
 # Install python packages
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt 
 
 # Start uWSGI using config file
 CMD ["uwsgi", "app.ini"]

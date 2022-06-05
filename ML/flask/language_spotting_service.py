@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 
 SAVED_MODEL_PATH_LANG = "languages_model.h5"
-SAVED_MODEL_PATH_S2T = "speech2text_model.h5"
+# SAVED_MODEL_PATH_S2T = "speech2text_model.h5"
 SAMPLES_TO_CONSIDER = 22050
 
 class _Language_Spotting_Service:
