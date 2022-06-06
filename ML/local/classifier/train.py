@@ -9,13 +9,16 @@ JSON_PATH = "data.json"
 
 # Language Model: "ML/classifier/languages_model.h5"
 # Speech to text Model: "ML/classifier/speech2text_model.h5"
-SAVED_MODEL_PATH_M5 = "speech2text_model.h5"
-SAVED_MODEL_PATH_TFLITE = "speech2text_model.tflite"
+SAVED_MODEL_PATH_M5 = "languages_model.h5"
+SAVED_MODEL_PATH_TFLITE = "languages_model.tflite"
 EPOCHS = 80
 BATCH_SIZE = 32
 PATIENCE = 5
 LEARNING_RATE = 0.0001
-NUM_KEYWORDS = 11
+
+# Langauges: 3
+# Speech to text: ??
+NUM_KEYWORDS = 3 
 
 
 def load_data(data_path):

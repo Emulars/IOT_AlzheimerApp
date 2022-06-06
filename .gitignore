@@ -1,6 +1,3 @@
-dataset.tar.gz
-ML/classifier/data.json
-ML/dataset/
 *.iml
 .gradle
 /local.properties
