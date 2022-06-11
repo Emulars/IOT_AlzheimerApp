@@ -1,5 +1,11 @@
 # How to
 
+## Create dataset to train
+
+1. Change "DATASET_PATH" path in PrepareDataset.py
+2. Change "SAVED_MODEL_PATH_M5" and "SAVED_MODEL_PATH_TFLITE" path in train.py
+3. Change "NUM_KEYWORDS" value based on the number of labels in the dataset in file train.py
+
 ## Create Tensorflow model 
 
 1. Create folder "dataset" inside folder "ML"

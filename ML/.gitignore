@@ -1,2 +1,4 @@
 # JSON file for the data
 local/classifier/data.json
+local/classifier/data_languages.json
+local/classifier/data_speech2text.json
