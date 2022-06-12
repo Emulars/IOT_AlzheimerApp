@@ -17,8 +17,8 @@ PATIENCE = 5
 LEARNING_RATE = 0.0001
 
 # Langauges: 3
-# Speech to text: 266
-NUM_KEYWORDS = 266 
+# Speech to text: 264
+NUM_KEYWORDS = 264 
 
 
 def load_data(data_path):
