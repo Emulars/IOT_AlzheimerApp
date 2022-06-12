@@ -2,9 +2,7 @@ package com.example.profile;
 
 import android.Manifest;
 import android.content.ContextWrapper;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.icu.text.Edits;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -16,16 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
+import Utility.HttpPostAsyncTask;
 import Utility.Question;
 
 // TODO:
@@ -36,7 +33,7 @@ import Utility.Question;
 public class PgQt extends AppCompatActivity {
 
     private final String TAG = "PgQt";
-    TextView tv_question = null;
+    TextView tv_question, tv_counter = null;
     Button btt_record, btt_stop, btt_play, btt_next = null;
 
     // Audio
@@ -94,11 +91,15 @@ public class PgQt extends AppCompatActivity {
         btt_play =  findViewById(R.id.btt_play);
         btt_next =  findViewById(R.id.btt_next);
 
+        tv_counter = findViewById(R.id.tv_counter);
+
         fillQuestions(questions);
 
         if(isMicrophonePresent()){
             getMicrophonePermission();
         }
+
+        new HttpPostAsyncTask().execute(getRecordingFilePath());
     }
 
     public void btnNextPressed(View view){
@@ -149,6 +150,8 @@ public class PgQt extends AppCompatActivity {
         mediaRecorder.release();
         mediaRecorder=null;
         Toast.makeText(this, "Recording is stopped", Toast.LENGTH_LONG).show();
+
+        // POST Request to Models' server
 
         // Enable play button
         btt_play.setEnabled(true);
