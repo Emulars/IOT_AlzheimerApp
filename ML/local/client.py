@@ -1,10 +1,10 @@
 import requests
 
 # server url
-URL = "http://127.0.0.1/predict"
+URL = "http://54.84.37.0/predict"
 
 # audio file we'd like to send for predicting keyword
-FILE_PATH = "test/left.wav"
+FILE_PATH = "test/Dix_00.wav"
 
 if __name__ == "__main__":
 
