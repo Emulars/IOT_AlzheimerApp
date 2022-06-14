@@ -21,8 +21,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.StringTokenizer;
+import java.util.concurrent.ExecutionException;
 
 import Utility.HttpPostAsyncTask;
+import Utility.LanguageType;
 import Utility.Question;
 
 // TODO:
@@ -155,8 +158,35 @@ public class PgQt extends AppCompatActivity {
         btt_play.setEnabled(true);
         btt_play.setVisibility(View.VISIBLE);
 
-        new HttpPostAsyncTask().execute(getRecordingFilePath());
+        //risulatato risposte
+        String output = null;
+        try { output = new HttpPostAsyncTask().execute(getRecordingFilePath()).get();
+        } catch (ExecutionException e) {e.printStackTrace();
+        } catch (InterruptedException e) {e.printStackTrace(); }
+
+        Log.i(TAG, output);
+
+        resultServerAnalyze(output);
     }
+
+    //funzione che prende la stringa che viene dal server
+    public void resultServerAnalyze(String output)
+    {
+        //scorro la stringa e in base se alla posizione del parametro decido
+        StringTokenizer st = new StringTokenizer(output, " ");
+
+        //LanguageType lt;
+        //questions.set(questions.indexOf(currentQuestion), currentQuestion.setLanguage(IT));
+
+        while (st.hasMoreTokens())
+        {
+            String lang = st.nextToken();
+            if(lang == "IT") Toast.makeText(this, "Language: Italiano", Toast.LENGTH_LONG).show();
+            else if(lang == "EN") Toast.makeText(this, "Language: Inglese", Toast.LENGTH_LONG).show();
+            else if(lang == "FR") Toast.makeText(this, "Language: Francese", Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void btnPlayPressed(View view){
         try {
             mediaPlayer= new MediaPlayer();
