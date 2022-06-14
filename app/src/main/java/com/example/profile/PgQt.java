@@ -98,8 +98,6 @@ public class PgQt extends AppCompatActivity {
         if(isMicrophonePresent()){
             getMicrophonePermission();
         }
-
-        new HttpPostAsyncTask().execute(getRecordingFilePath());
     }
 
     public void btnNextPressed(View view){
@@ -156,6 +154,8 @@ public class PgQt extends AppCompatActivity {
         // Enable play button
         btt_play.setEnabled(true);
         btt_play.setVisibility(View.VISIBLE);
+
+        new HttpPostAsyncTask().execute(getRecordingFilePath());
     }
     public void btnPlayPressed(View view){
         try {
