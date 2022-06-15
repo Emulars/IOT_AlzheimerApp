@@ -20,6 +20,8 @@ import androidx.core.content.ContextCompat;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
@@ -35,6 +37,42 @@ import Utility.Question;
 
 public class PgQt extends AppCompatActivity {
 
+     private String totalRisp[]= {"Agosto", "Aprile", "Autista", "Autunno", "Avvocato", "Benedetto_Sedicesimo", "Celeste",
+            "Cento", "Cinquanta", "Cinque", "Davide", "Dicembre", "Diciannove", "Diciassette", "Diciotto", "Dieci",
+            "Dodici", "Domenica", "Due", "Duemila", "Duemilaventi", "Duemilaventidue", "Duemilaventuno", "Estate",
+            "Febbraio", "Filippo", "Firenze", "Francesco", "Gennaio", "Genova", "Giorgio", "Giovanni_Paolo_Secondo",
+            "Giovedi", "Giugno", "Insegnante", "Inverno", "Luglio", "Lunedi", "Maggio", "Mario", "Martedi", "Marzo",
+            "Matita", "Mattarella", "Mattina", "Mercoledi", "Millenovecento", "Millenovecentodiciotto", "Millenovecentoquarantacinque",
+            "Millenovecentoquattordici", "Millenovecentotrentanove", "Napoli", "Napolitano", "Notte", "Novanta", "Nove", "Novembre",
+            "Ottanta", "Otto", "Ottobre", "Palla", "Piatto", "Pomeriggio", "Pompiere", "Primavera", "Quaranta", "Quattordici", "Quattro",
+            "Quindici", "Sabato", "Sedici", "Sei", "Sera", "Sergio", "Sessanta", "Settanta", "Sette", "Settembre", "Tre", "Tredici",
+            "Trenta", "Trentuno", "Undici", "Uno", "Venerdi", "Venezia", "Venti", "Venticinque", "Ventidue", "Ventinove", "Ventiquattro",
+            "Ventisei", "Ventisette", "Ventitre", "Ventotto", "Ventuno",
+
+            "August", "April", "Driver", "Autumn", "Lawyer", "Celestial",
+            "Hundred", "Fifty", "Five", "Dave", "December", "Nineteen", "Seventeen", "Eighteen", "Ten",
+            "Twelve", "Sunday", "Two", "Two_Thousand", "Two_Thousand_Twenty", "Two_Thousand_Twenty_Two", "Two_Thousand_Twenty_One", "Summer",
+            "February", "Philipp", "Florence", "January", "Genoa",
+            "Thursday", "June", "Teacher", "Winter", "July", "Monday", "May", "Tuesday", "March",
+            "Pencil", "Morning", "Wednesday", "Nineteen_Hundred", "Nineteen_Hundred_Eighteen", "Nineteen_Hundred_Forty_Five",
+            "Nineteen_Hundred_Fourteen", "Nineteen_Hundred_Thirty_Nine", "Naples", "Night", "Ninety", "Nine", "November",
+            "Eighty", "Eight", "October", "Ball", "Plate", "Afternoon", "Fireman", "Spring", "Forty", "Fourteen", "Four",
+            "Fifteen", "Saturday", "Sixteen", "Six", "Evening", "Sixty", "Seventy", "Seven", "September", "Three", "Thirteen",
+            "Thirty", "Thirty_One", "Eleven", "One", "Friday", "Venice", "Twenty", "Twenty_Five", "Twenty_Two", "Twenty_Nine", "Twenty_Four",
+            "Twenty_Six", "Twenty_Seven", "Twenty_Three", "Twenty_Eight", "Twenty_One",
+
+            "Aout", "Avril", "Chauffeur", "Automne", "Avocat",
+            "Cent", "Cinquante", "Cinq", "Decembre", "Dix_Neuf", "Dix_Sept", "Dix_Huit", "Dix",
+            "Douze", "Dimanche", "Deux", "Deux_mille", "Deux_Mille_Vingt", "Deux_Mille_Vingt_Deux", "Deux_Mille_Vingt_Et_Un", "Ete",
+            "Fevrier", "Florence", "Janvier", "Genes",
+            "Jeudi", "Juin", "Professeur", "Hiver", "Juillet", "Lundi", "Mai", "Mardi", "Mars",
+            "Crayon", "Matin", "Mercredi", "Mille_Neuf_Cent", "Mille_Neuf_Nent_Dix_Huit", "Mille_Neuf_Cent_Quarante_Cinq",
+            "Mil_Neuf_Cent_Quatorze","Mille_Neuf_Cent_Trente_Neuf", "Naples","Nuit", "Quatre_Vingt_Dix", "Neuf", "Novembre",
+            "Quatre_Vingt", "Huit", "Octobre", "Ballon", " Apres_Midi", " Pompier", " Printemps", " Quarante", " Quatorze", " Quatre",
+            "Quinze", "Samedi", "Seize", "Six", "Soir", "Soixante", "Soixante_Dix", "Sept", "Septembre", "Trois", "Treize",
+            "Trente", "Trente_Et_Un", "Onze", "Un", "Vendredi", "Venise", "Vingt", "Vingt_Cinq", "Vingt_Deux", "Vingt_Neuf", "Vingt_Quatre",
+            "Vingt_Six", "Vingt_Sept", "Vingt_Trois", "Vingt_Huit", "Vingt_Et_Un"};
+
     private final String TAG = "PgQt";
     TextView tv_question, tv_counter = null;
     Button btt_record, btt_stop, btt_play, btt_next = null;
@@ -49,6 +87,7 @@ public class PgQt extends AppCompatActivity {
     Question currentQuestion = null;
     private ArrayList<Question> questions = new ArrayList<Question>();
     Iterator questionIterator = null;
+    int index = 0;
 
     private void fillQuestions(ArrayList<Question> q){
         q.add(new Question("Come ti chiami ?", "name"));
@@ -164,7 +203,7 @@ public class PgQt extends AppCompatActivity {
         } catch (ExecutionException e) {e.printStackTrace();
         } catch (InterruptedException e) {e.printStackTrace(); }
 
-        Log.i(TAG, output);
+        //Log.i(TAG, output);
 
         resultServerAnalyze(output);
     }
@@ -173,19 +212,52 @@ public class PgQt extends AppCompatActivity {
     public void resultServerAnalyze(String output)
     {
         //scorro la stringa e in base se alla posizione del parametro decido
-        StringTokenizer st = new StringTokenizer(output, " ");
+        //StringTokenizer st = new StringTokenizer(output, " ");
 
         //LanguageType lt;
         //questions.set(questions.indexOf(currentQuestion), currentQuestion.setLanguage(IT));
+        String[] st = output.split(" ");
 
-        while (st.hasMoreTokens())
-        {
-            String lang = st.nextToken();
-            if(lang == "IT") Toast.makeText(this, "Language: Italiano", Toast.LENGTH_LONG).show();
-            else if(lang == "EN") Toast.makeText(this, "Language: Inglese", Toast.LENGTH_LONG).show();
-            else if(lang == "FR") Toast.makeText(this, "Language: Francese", Toast.LENGTH_LONG).show();
+        //LINGUA
+        String lang = st[0];
+        Log.i(TAG, lang);
+        currentQuestion.setLanguage(lang);
+        if(lang.equals("IT")) Toast.makeText(this, "Language: Italiano", Toast.LENGTH_LONG).show();
+        else if(lang.equals("EN")) Toast.makeText(this, "Language: Inglese", Toast.LENGTH_LONG).show();
+        else if(lang.equals("FR")) Toast.makeText(this, "Language: Francese", Toast.LENGTH_LONG).show();
+
+        //RISPOSTA
+        String risp = st[1];
+        Log.i(TAG, risp);
+        Calendar calendar = Calendar.getInstance();
+        //TODO: per questo tipo di domande controllare anche HashMap<String, String> profileData di NewProfile?
+        if(index == 0) currentQuestion.setAnswer(answerIsPresent(risp));
+        else if(index == 1) currentQuestion.setAnswer(answerIsPresent(risp));
+        else if(index == 2) currentQuestion.setAnswer(answerIsPresent(risp));
+
+        else if(index == 3){
+            int this_day_moment = calendar.get(Calendar.HOUR_OF_DAY);
+            String day_moment = null;
+            if(this_day_moment > 00 || this_day_moment <= 6) day_moment = "Notte";
+            else if(this_day_moment > 6  || this_day_moment <= 12) day_moment = "Mattina";
+            else if(this_day_moment > 12  || this_day_moment <= 18) day_moment = "Pomeriggio";
+            else if(this_day_moment > 18  || this_day_moment <= 24) day_moment = "Sera";
+            currentQuestion.setAnswer(answerIsPresent(day_moment));
         }
+
+        Log.i(TAG, "Answer: "+questions.get(index).getAnswer());
+        index++;
     }
+
+    private boolean answerIsPresent(String answer)
+    {
+        for (int i=0; i< totalRisp.length; i++) {
+            if (answer.equals(totalRisp[i])) return true;
+        }
+        return false;
+    }
+
+
 
     public void btnPlayPressed(View view){
         try {
