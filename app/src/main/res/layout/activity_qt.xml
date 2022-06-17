@@ -29,7 +29,7 @@
         android:textColor="@color/white"
         android:textAlignment="center"></TextView>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <ImageButton
         android:id="@+id/btt_mic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,10 +62,11 @@
 
     <Button
         android:id="@+id/btt_next"
-        android:layout_width="match_parent"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="100dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="100dp"
-        android:text="Next"
-        android:onClick="btnNextPressed"/>
+        android:layout_marginRight="100dp"
+        android:text="next"
+        android:onClick="btnNextPressed" />
 </LinearLayout>

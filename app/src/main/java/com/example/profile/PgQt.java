@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,8 +78,9 @@ public class PgQt extends AppCompatActivity {
 
     private final String TAG = "PgQt";
     TextView tv_question, tv_counter = null;
-    Button btt_record, btt_stop, btt_play, btt_next = null;
-
+    Button btt_stop, btt_play, btt_next= null;
+    ImageButton btt_record;
+    boolean isRecording=false;
     // Audio
     private static int MICROPHONE_PERMISSION_CODE=200;
     MediaRecorder mediaRecorder;
@@ -145,6 +147,7 @@ public class PgQt extends AppCompatActivity {
     }
 
     public void btnNextPressed(View view){
+
         tv_question = findViewById(R.id.tv_question);
 
         if(questionIterator.hasNext())
@@ -158,35 +161,67 @@ public class PgQt extends AppCompatActivity {
         // Disable Stop and Play button
         btt_stop.setEnabled(false);
         btt_play.setEnabled(false);
-
         // enable recording button
         btt_record.setEnabled(true);
         btt_record.setVisibility(View.VISIBLE);
     }
 
     public void btnRecordPressed(View view){
+        btt_record.setBackgroundResource(R.drawable.trasparenza);
+        switch ( view.getId()){
+            case R.id.btt_mic:
+                if(isRecording){
+                    mediaRecorder.stop();
+                    mediaRecorder.reset();
+                    mediaRecorder.release();
+                    mediaRecorder=null;
+                    Toast.makeText(this, "Recording is stopped", Toast.LENGTH_LONG).show();
 
-        // Enable Stop button
-        btt_stop.setEnabled(true);
-        btt_stop.setVisibility(View.VISIBLE);
+                    // POST Request to Models' server
 
-        try {
-            mediaRecorder= new MediaRecorder();
-            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mediaRecorder.setOutputFile(getRecordingFilePath());
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mediaRecorder.prepare();
-            mediaRecorder.start();
-            Toast.makeText(this, "Recording is started", Toast.LENGTH_LONG).show();
+                    // Enable play button
+                    btt_play.setEnabled(true);
+                    btt_play.setVisibility(View.VISIBLE);
+                    btt_record.setImageDrawable(getResources().getDrawable(R.drawable.microfono_btsu, null));
+                    isRecording=false;
+                    //risulatato risposte
+                    String output = null;
+        /*try { output = new HttpPostAsyncTask().execute(getRecordingFilePath()).get();
+        } catch (ExecutionException e) {e.printStackTrace();
+        } catch (InterruptedException e) {e.printStackTrace(); }
 
-            Log.i("File pos: ",getRecordingFilePath());
+        //Log.i(TAG, output);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        resultServerAnalyze(output);*/
+                }else
+                {
+                    //Start recording
+                    //se sono stati dati i permessi allora puoi registrare
+                    //metodo per avviare registrazione
+                    try {
+                        mediaRecorder= new MediaRecorder();
+                        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                        mediaRecorder.setOutputFile(getRecordingFilePath());
+                        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                        mediaRecorder.prepare();
+                        mediaRecorder.start();
+                        Toast.makeText(this, "Recording is started", Toast.LENGTH_LONG).show();
+
+                        Log.i("File pos: ",getRecordingFilePath());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    btt_record.setImageDrawable(getResources().getDrawable(R.drawable.microfono_btgiu, null));
+                    isRecording = true;
+                }
+
+                break;
         }
+        // Enable Stop button
     }
-    public void  btnStopPressed(View view){
+    /*public void  btnStopPressed(View view){
         mediaRecorder.stop();
         mediaRecorder.reset();
         mediaRecorder.release();
@@ -208,7 +243,7 @@ public class PgQt extends AppCompatActivity {
         //Log.i(TAG, output);
 
         resultServerAnalyze(output);
-    }
+    }*/
 
     //funzione che prende la stringa che viene dal server
     public void resultServerAnalyze(String output)
@@ -389,8 +424,6 @@ public class PgQt extends AppCompatActivity {
         }
         return false;
     }
-
-
 
     public void btnPlayPressed(View view){
         try {
