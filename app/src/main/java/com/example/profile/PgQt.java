@@ -424,4 +424,24 @@ public class PgQt extends AppCompatActivity {
         File file = new File(musicDirectory, filePath + ".wav");
         return file.getPath();
     }
+
+    private HashMap<String, String> JSONStringToHashMap(String s){
+        // Remove braces and quotation marks
+        s = s.replace("{", "");
+        s = s.replace("}", "");
+        s = s.replace("\"", "");
+        String[] keyValuePairs = s.split(",");      //split the string to create key-value pairs
+
+        // Models results
+        // keyword = spotted word
+        // language = spotted language
+        HashMap<String, String> results = new HashMap<String, String>();
+        for(String pair : keyValuePairs)                        //iterate over the pairs
+        {
+            String[] entry = pair.split(":");                   //split the pairs to get key and value
+            results.put(entry[0].trim(), entry[1].trim());          //add them to the hashmap and trim whitespaces
+        }
+
+        return results;
+    }
 }
