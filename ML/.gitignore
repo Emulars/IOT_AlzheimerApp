@@ -2,3 +2,7 @@
 local/classifier/data.json
 local/classifier/data_languages.json
 local/classifier/data_speech2text.json
+
+# Audio file
+local/dataset/speech2text/**
+/ML/local/dataset/speech2text/Afternoon/*.wav

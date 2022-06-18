@@ -3,16 +3,21 @@ package Utility;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -20,57 +25,117 @@ public class HttpPostAsyncTask extends AsyncTask<String, String, String>{
 
     String TAG = "HttpPostAsyncTask";
 
-    private String formatDataToSend(String filePath){
-        File file = new File(filePath);
-        String formatted = "{\'file\': (" + filePath + ", " + file + ", \'audio/wav\')}";
-        return formatted;
-    }
+    Map<String, String> httpHeader = new HashMap<>();
 
+    private final String lineEnd = "\r\n";
+    private final String twoHyphens = "--";
+    private final String boundary = UUID.randomUUID().toString();
+    private String charset;
+    HttpURLConnection conn = null;
+    private OutputStream outputStream;
+    private PrintWriter writer;
+    //private BufferedWriter writer;
+    FileInputStream fileInputStream = null;
+
+    /*
+    * This method starts a connection with the server containing the ML models and receives
+    * in response the keyword and the language of the audio file given to it
+    *
+    * @param strings[0] -> Service URL
+    * @param strings[1] -> Server charset
+    * @param strings[2] -> User agent
+    * @param strings[3] -> Field name
+    * @param strings[4] -> File path
+    */
     @Override
     protected String doInBackground(String... strings) {
+
         String response = "";
-        URL url = null;
-        String filePath =  strings[0];
+        try
+        {
+            /* CLIENT REQUEST*/
+            URL url = new URL(strings[0]);
+            this.charset = strings[1];
+            httpHeader.put("User-Agent", strings[2]);
+            String filePath = strings[4];
 
-        try {
-            url = new URL("http://54.84.37.0/predict");
+            File fp = new File(filePath);
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoInput(true); // Allow Inputs
+            conn.setDoOutput(true); // Allow Outputs
+            conn.setUseCaches(false); // Don't use a cached copy.
+            conn.setRequestMethod("POST"); // Use a post method.
 
-            // To send request to the server
-            OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-            writer.write(formatDataToSend(filePath));
-
-            writer.flush();
-            writer.close();
-            os.close();
-            int responseCode=conn.getResponseCode();
-            Log.e(TAG, String.valueOf(responseCode));
-
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
-                String line;
-                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                while ((line=br.readLine()) != null) {
-                    response+=line;
+            conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            if (httpHeader != null && httpHeader.size() > 0) {
+                Iterator<String> it = httpHeader.keySet().iterator();
+                while (it.hasNext()) {
+                    String key = it.next();
+                    String value = httpHeader.get(key);
+                    conn.setRequestProperty(key, value);
                 }
             }
-            else {
-                response=String.valueOf(responseCode);
+
+            outputStream = conn.getOutputStream();
+            writer = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
+            //writer = new BufferedWriter(new OutputStreamWriter(outputStream, charset));
+
+            // File
+            writer.append(twoHyphens + boundary).append(lineEnd);
+            writer.append("Content-Disposition: form-data; name=\"" + strings[3] + "\"; filename=\"" + fp.getName() + "\"").append(lineEnd);
+            writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(fp.getName())).append(lineEnd);
+            writer.append("Content-Transfer-Encoding: binary").append(lineEnd);
+            writer.append(lineEnd);
+            writer.flush();
+
+            fileInputStream = new FileInputStream(fp);
+            byte[] buffer = new byte[8 * 1024 * 1024]; // 8MB
+            int bytesRead = -1;
+            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
             }
-        }
-        catch (MalformedURLException e){
+            outputStream.flush();
+            fileInputStream.close();
+            writer.append(lineEnd);
+            writer.flush();
+
+        }catch (MalformedURLException e){
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception e) {
+        }
+
+        /* SERVER RESPONSE*/
+        writer.flush();
+        writer.append(twoHyphens + boundary + twoHyphens).append(lineEnd);
+        writer.close();
+
+
+        int responseCode= 0;
+        try {
+            // Check status connection code
+            responseCode = conn.getResponseCode();
+            Log.v(TAG, String.valueOf(responseCode));
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+                ByteArrayOutputStream result = new ByteArrayOutputStream();
+                byte[] buffer = new byte[8 * 1024 * 1024];
+                int length;
+                while ((length = conn.getInputStream().read(buffer)) != -1) {
+                    result.write(buffer, 0, length);
+                }
+                response = result.toString(this.charset);
+            }
+            else {
+                response= "Server response non-OK status: " + responseCode;
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Close connection
+        conn.disconnect();
 
         return response;
     }

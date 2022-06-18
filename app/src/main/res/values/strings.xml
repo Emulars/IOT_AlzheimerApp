@@ -15,4 +15,11 @@
     <!-- Questions page -->
     <string name="question">Press next to start</string>
 
+    <!-- Server Connection -->
+    <string name="server_url_local">http://192.168.1.112/predict</string>
+    <string name="server_url_remote">http://54.84.37.0/predict</string>
+    <string name="server_charset">utf-8</string>
+    <string name="user_agent">Dalvik/2.1.0 (Linux; U; Android 11; sdk_gphone_x86 Build/RSR1.201013.001</string>
+
+
 </resources>

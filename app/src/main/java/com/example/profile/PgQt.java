@@ -23,14 +23,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
 import Utility.HttpPostAsyncTask;
-import Utility.LanguageType;
 import Utility.Question;
 
 // TODO:
@@ -177,22 +174,30 @@ public class PgQt extends AppCompatActivity {
                     mediaRecorder=null;
                     Toast.makeText(this, "Recording is stopped", Toast.LENGTH_LONG).show();
 
-                    // POST Request to Models' server
-
                     // Enable play button
                     btt_play.setEnabled(true);
                     btt_play.setVisibility(View.VISIBLE);
                     btt_record.setImageDrawable(getResources().getDrawable(R.drawable.microfono_btsu, null));
                     isRecording=false;
-                    //risulatato risposte
+
+                    // POST Request to Models' server
                     String output = null;
-        /*try { output = new HttpPostAsyncTask().execute(getRecordingFilePath()).get();
-        } catch (ExecutionException e) {e.printStackTrace();
-        } catch (InterruptedException e) {e.printStackTrace(); }
+                    try {
+                        output = new HttpPostAsyncTask().execute(   getString(R.string.server_url_local),       // strings[0] -> Service URL
+                                                                    getString(R.string.server_charset),         // strings[1] -> Server charset
+                                                                    getString(R.string.user_agent),             // strings[2] -> User agent
+                                                                    "file",                                     // strings[3] -> Field name
+                                                                    getRecordingFilePath()).get();              // strings[4] -> File path
+                    }catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-        //Log.i(TAG, output);
+                    Log.i(TAG, output);
 
-        resultServerAnalyze(output);*/
+                    // Check models results
+                    //resultServerAnalyze(output);
                 }else
                 {
                     //Start recording
