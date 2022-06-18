@@ -23,11 +23,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
 import Utility.HttpPostAsyncTask;
+import Utility.LanguageType;
 import Utility.Question;
 
 // TODO:
@@ -36,42 +39,6 @@ import Utility.Question;
 // - Per profilazione potremmo usare Hashtable
 
 public class PgQt extends AppCompatActivity {
-
-    private String totalRisp[]= {"Agosto", "Aprile", "Autista", "Autunno", "Avvocato", "Benedetto_Sedicesimo", "Celeste",
-            "Cento", "Cinquanta", "Cinque", "Davide", "Dicembre", "Diciannove", "Diciassette", "Diciotto", "Dieci",
-            "Dodici", "Domenica", "Due", "Duemila", "Duemilaventi", "Duemilaventidue", "Duemilaventuno", "Estate",
-            "Febbraio", "Filippo", "Firenze", "Francesco", "Gennaio", "Genova", "Giorgio", "Giovanni_Paolo_Secondo",
-            "Giovedi", "Giugno", "Insegnante", "Inverno", "Luglio", "Lunedi", "Maggio", "Mario", "Martedi", "Marzo",
-            "Matita", "Mattarella", "Mattina", "Mercoledi", "Millenovecento", "Millenovecentodiciotto", "Millenovecentoquarantacinque",
-            "Millenovecentoquattordici", "Millenovecentotrentanove", "Napoli", "Napolitano", "Notte", "Novanta", "Nove", "Novembre",
-            "Ottanta", "Otto", "Ottobre", "Palla", "Piatto", "Pomeriggio", "Pompiere", "Primavera", "Quaranta", "Quattordici", "Quattro",
-            "Quindici", "Sabato", "Sedici", "Sei", "Sera", "Sergio", "Sessanta", "Settanta", "Sette", "Settembre", "Tre", "Tredici",
-            "Trenta", "Trentuno", "Undici", "Uno", "Venerdi", "Venezia", "Venti", "Venticinque", "Ventidue", "Ventinove", "Ventiquattro",
-            "Ventisei", "Ventisette", "Ventitre", "Ventotto", "Ventuno",
-
-            "August", "April", "Driver", "Autumn", "Lawyer", "Celestial",
-            "Hundred", "Fifty", "Five", "Dave", "December", "Nineteen", "Seventeen", "Eighteen", "Ten",
-            "Twelve", "Sunday", "Two", "Two_Thousand", "Two_Thousand_Twenty", "Two_Thousand_Twenty_Two", "Two_Thousand_Twenty_One", "Summer",
-            "February", "Philipp", "Florence", "January", "Genoa",
-            "Thursday", "June", "Teacher", "Winter", "July", "Monday", "May", "Tuesday", "March",
-            "Pencil", "Morning", "Wednesday", "Nineteen_Hundred", "Nineteen_Hundred_Eighteen", "Nineteen_Hundred_Forty_Five",
-            "Nineteen_Hundred_Fourteen", "Nineteen_Hundred_Thirty_Nine", "Naples", "Night", "Ninety", "Nine", "November",
-            "Eighty", "Eight", "October", "Ball", "Plate", "Afternoon", "Fireman", "Spring", "Forty", "Fourteen", "Four",
-            "Fifteen", "Saturday", "Sixteen", "Six", "Evening", "Sixty", "Seventy", "Seven", "September", "Three", "Thirteen",
-            "Thirty", "Thirty_One", "Eleven", "One", "Friday", "Venice", "Twenty", "Twenty_Five", "Twenty_Two", "Twenty_Nine", "Twenty_Four",
-            "Twenty_Six", "Twenty_Seven", "Twenty_Three", "Twenty_Eight", "Twenty_One",
-
-            "Aout", "Avril", "Chauffeur", "Automne", "Avocat",
-            "Cent", "Cinquante", "Cinq", "Decembre", "Dix_Neuf", "Dix_Sept", "Dix_Huit", "Dix",
-            "Douze", "Dimanche", "Deux", "Deux_mille", "Deux_Mille_Vingt", "Deux_Mille_Vingt_Deux", "Deux_Mille_Vingt_Et_Un", "Ete",
-            "Fevrier", "Florence", "Janvier", "Genes",
-            "Jeudi", "Juin", "Professeur", "Hiver", "Juillet", "Lundi", "Mai", "Mardi", "Mars",
-            "Crayon", "Matin", "Mercredi", "Mille_Neuf_Cent", "Mille_Neuf_Nent_Dix_Huit", "Mille_Neuf_Cent_Quarante_Cinq",
-            "Mil_Neuf_Cent_Quatorze","Mille_Neuf_Cent_Trente_Neuf", "Naples","Nuit", "Quatre_Vingt_Dix", "Neuf", "Novembre",
-            "Quatre_Vingt", "Huit", "Octobre", "Ballon", " Apres_Midi", " Pompier", " Printemps", " Quarante", " Quatorze", " Quatre",
-            "Quinze", "Samedi", "Seize", "Six", "Soir", "Soixante", "Soixante_Dix", "Sept", "Septembre", "Trois", "Treize",
-            "Trente", "Trente_Et_Un", "Onze", "Un", "Vendredi", "Venise", "Vingt", "Vingt_Cinq", "Vingt_Deux", "Vingt_Neuf", "Vingt_Quatre",
-            "Vingt_Six", "Vingt_Sept", "Vingt_Trois", "Vingt_Huit", "Vingt_Et_Un"};
 
     private final String TAG = "PgQt";
     TextView tv_question, tv_counter = null;
@@ -90,38 +57,60 @@ public class PgQt extends AppCompatActivity {
     Iterator questionIterator = null;
     int index = 0;
 
+    Calendar calendar;
+    HashMap<String, String> profileData = new HashMap<String, String>();
+
     private void fillQuestions(ArrayList<Question> q){
-        q.add(new Question("Come ti chiami ?", "name"));
-        q.add(new Question("Quanti anni hai ?", "age"));
-        q.add(new Question("Che ore sono ?", "time"));
-        q.add(new Question("In che momento del giorno siamo ? (Mattina, Pomeriggio, ...)", "day_moment"));
-        q.add(new Question("Quanti ne abbiamo ?", "day"));
-        q.add(new Question("Che giorno è ?", "day_of_the_week"));
-        q.add(new Question("In che mese siamo ?", "month"));
-        q.add( new Question("In che stagione siamo ?", "season"));
-        q.add(new Question("In che anno siamo ?", "year"));
-        q.add(new Question("Che oggetto è ? (1)", "object_1"));
-        q.add(new Question("Che oggetto è ? (2)", "object_2"));
+        q.add(new Question("Come ti chiami ?", "name", new String[]{ String.valueOf(profileData.get("Name")) } ));
+        q.add(new Question("Quanti anni hai ?", "age", new String[] {inizialateEge()}));
+        q.add(new Question("Che ore sono ?", "time", new String[] {String.valueOf(calendar.get(Calendar.HOUR_OF_DAY))} ));
+        q.add(new Question("In che momento del giorno siamo ? (Mattina, Pomeriggio, ...)", "day_moment", new String[] {"Notte", "Mattino", "Pomeriggio", "Sera",
+                                                                                                                                    "Night", "Morning", "Afternoon", "Evening",
+                                                                                                                                    "Nuit", "Matin", "Apres_midi", "Soir"}));
+        q.add(new Question("Quanti ne abbiamo ?", "day", new String[] {String.valueOf(calendar.get(Calendar.DAY_OF_MONTH))}));
+        q.add(new Question("Che giorno è ?", "day_of_the_week", new String[] {"Domenica", "Lunedi", "Martedi", "Mercoledi", "Giovedi", "Venerdi", "Sabato",
+                                                                                            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+                                                                                            "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"}));
+        q.add(new Question("In che mese siamo ?", "month", new String[] {"Gennaio", "Febbraio","Marzo", "Aprile", "Marzo", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre",
+                                                                                        "January", "February", "March", "April", "March", "June", "July", "August", "September", "October", "November", "December",
+                                                                                        "Janvier", "Fevrier", "Mars", "Avril", "Mars", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"}));
+        q.add( new Question("In che stagione siamo ?", "season", new String[]{"Inverno","Primavera","Estate","Autunno",
+                                                                                            "Winter", "Spring", "Summer", "Autumn",
+                                                                                            "Hiver", "Printemps", "Ete", "Tomber"}));
+        q.add(new Question("In che anno siamo ?", "year", new String[]{String.valueOf(calendar.get(Calendar.YEAR))}));
+        q.add(new Question("Che oggetto è ? (1)", "object_1", new String[]{}));
+        q.add(new Question("Che oggetto è ? (2)", "object_2", new String[]{}));
 
-        q.add(new Question("Ricordati questo nome: \'Mario\', ti verrà richiesto in seguito", "name_ta"));
-        q.add(new Question("Ricordati questo indirizzo: \'Via Bobbio\', ti verrà richiesto in seguito", "street_ta"));
+        q.add(new Question("Ricordati questo nome: \'Mario\', ti verrà richiesto in seguito", "name_ta", new String[]{"Mario"}));
+        //q.add(new Question("Ricordati questo indirizzo: \'Via Bobbio\', ti verrà richiesto in seguito", "street_ta", new String[]{"Via Bobbio"}));
 
-        q.add(new Question("Quando sei natə ?", "birthday"));
-        q.add(new Question("Dove sei natə ?", "birth_loc"));
-        q.add(new Question("Che lavoro svogli/hai svolto ?", "job"));
-        q.add(new Question("Data inizio della prima guerra mondiale ?", "wwo_1"));
-        q.add(new Question("Data fine della prima guerra mondiale ?", "wwo_2"));
-        q.add(new Question("Data inizio della seconda guerra mondiale ?", "wwt_1"));
-        q.add(new Question("Data fine della seconda guerra mondiale ?", "wwt_2"));
-        q.add(new Question("Chi è l'attuale presidente della Repubblica", "president"));
-        q.add(new Question("Chi è l'attuale Papa ?", "papa"));
-        q.add(new Question("Ripetere il nome il fornito in precedenza", "name_ta")); // filePath duplicato...
-        q.add(new Question("Ripetere la strada il fornita in precedenza", "street_ta")); // filePath duplicato...
-        q.add(new Question("Elenca i mesi dell'anno al contrario", "reverse_month"));
-        q.add(new Question("Conta da 1 a 20", "numbers"));
-        q.add(new Question("Conta da 20 a 1", "reverse_numbers"));
+        q.add(new Question("Quando sei natə ?", "birthday", new String[]{"Duemila", "Two_Thousand", "Deux_mille"}));
+        q.add(new Question("Dove sei natə ?", "birth_loc", new String[]{profileData.get("Birthplace")}));
+        q.add(new Question("Che lavoro svogli/hai svolto ?", "job", new String[]{profileData.get("Job")} ));
+        q.add(new Question("Data inizio della prima guerra mondiale ?", "wwo_1", new String[]{"Millenovecentoquattordici", "Nineteen_Hundred_Fourteen", "Mil_Neuf_Cent_Quatorze"}));
+        q.add(new Question("Data fine della prima guerra mondiale ?", "wwo_2", new String[]{"Millenovecentodiciotto","Nineteen_Hundred_Eighteen","Mille_Neuf_Nent_Dix_Huit"}));
+        q.add(new Question("Data inizio della seconda guerra mondiale ?", "wwt_1", new String[]{"Millenovecentotrentanove", "Nineteen_Hundred_Thirty_Nine", "Mille_Neuf_Cent_Trente_Neuf"}));
+        q.add(new Question("Data fine della seconda guerra mondiale ?", "wwt_2", new String[]{"Millenovecentoquarantacinque", "Nineteen_Hundred_Forty_Five","Mille_Neuf_Cent_Quarante_Cinq"}));
+        q.add(new Question("Chi è l'attuale presidente della Repubblica", "president", new String[]{"Napolitano", "Mattarella"}));
+        q.add(new Question("Chi è l'attuale Papa ?", "papa", new String[]{"Francesco", "Giovanni_Paolo_Secondo"}));
+        q.add(new Question("Ripetere il nome il fornito in precedenza", "name_ta", new String[]{"Mario"})); // filePath duplicato...
+        //q.add(new Question("Ripetere la strada il fornita in precedenza", "street_ta")); // filePath duplicato...
+        q.add(new Question("Pronuncia un mese dell'anno", "reverse_month", new String[] {"Gennaio", "Febbraio","Marzo", "Aprile", "Marzo", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre",
+                "January", "February", "March", "April", "March", "June", "July", "August", "September", "October", "November", "December",
+                "Janvier", "Fevrier", "Mars", "Avril", "Mars", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"}));
+        q.add(new Question("Pronuncia un numero da 1 a 20", "numbers", new String[]{"Uno", "Due", "Tre", "Quattro", "Cinque", "Sei", "Sette", "Otto", "Nove", "Dieci", "Undici", "Dodici", "Tredici", "Quattordi", "Quindici", "Sedici", "Diciasette", "Diciotto", "Diciannove", "Venti",
+                "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen","Twenty",
+                "Un", "Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", "Neuf", "Dix", "Onze", "Douze", "Treize","Quatorze","Quinze","Seize","Dix_Sept"," Dix_huit","Dix_neuf","Vingt"}));
+        //q.add(new Question("Conta da 20 a 1", "reverse_numbers"));
 
         questionIterator = questions.iterator();
+    }
+
+    //Funzioni di inizializzazione
+    private String inizialateEge(){
+        int currente_YEAR = calendar.get(Calendar.YEAR);
+        int year_of_person = Integer.parseInt(profileData.get("Birthday_year"));
+        return String.valueOf(currente_YEAR - year_of_person);
     }
 
     @Override
@@ -135,6 +124,11 @@ public class PgQt extends AppCompatActivity {
         btt_next =  findViewById(R.id.btt_next);
 
         tv_counter = findViewById(R.id.tv_counter);
+
+        Intent i = getIntent();
+        profileData = (HashMap<String, String>)i.getSerializableExtra("profileData");
+
+        calendar = Calendar.getInstance();
 
         fillQuestions(questions);
 
@@ -179,25 +173,25 @@ public class PgQt extends AppCompatActivity {
                     btt_play.setVisibility(View.VISIBLE);
                     btt_record.setImageDrawable(getResources().getDrawable(R.drawable.microfono_btsu, null));
                     isRecording=false;
-
                     // POST Request to Models' server
                     String output = null;
-                    try {
+                    /*try {
                         output = new HttpPostAsyncTask().execute(   getString(R.string.server_url_local),       // strings[0] -> Service URL
-                                                                    getString(R.string.server_charset),         // strings[1] -> Server charset
-                                                                    getString(R.string.user_agent),             // strings[2] -> User agent
-                                                                    "file",                                     // strings[3] -> Field name
-                                                                    getRecordingFilePath()).get();              // strings[4] -> File path
+                                getString(R.string.server_charset),         // strings[1] -> Server charset
+                                getString(R.string.user_agent),             // strings[2] -> User agent
+                                "file",                                     // strings[3] -> Field name
+                                getRecordingFilePath()).get();              // strings[4] -> File path
                     }catch (ExecutionException e) {
                         e.printStackTrace();
                     }catch (InterruptedException e) {
                         e.printStackTrace();
-                    }
+                    }*/
 
-                    Log.i(TAG, output);
+                    //Log.i(TAG, output);
 
                     // Check models results
-                    //resultServerAnalyze(output);
+                    //TODO: chiama currentQuestion
+
                 }else
                 {
                     //Start recording
@@ -226,29 +220,6 @@ public class PgQt extends AppCompatActivity {
         }
         // Enable Stop button
     }
-    /*public void  btnStopPressed(View view){
-        mediaRecorder.stop();
-        mediaRecorder.reset();
-        mediaRecorder.release();
-        mediaRecorder=null;
-        Toast.makeText(this, "Recording is stopped", Toast.LENGTH_LONG).show();
-
-        // POST Request to Models' server
-
-        // Enable play button
-        btt_play.setEnabled(true);
-        btt_play.setVisibility(View.VISIBLE);
-
-        //risulatato risposte
-        String output = null;
-        try { output = new HttpPostAsyncTask().execute(getRecordingFilePath()).get();
-        } catch (ExecutionException e) {e.printStackTrace();
-        } catch (InterruptedException e) {e.printStackTrace(); }
-
-        //Log.i(TAG, output);
-
-        resultServerAnalyze(output);
-    }*/
 
     //funzione che prende la stringa che viene dal server
     public void resultServerAnalyze(String output)
@@ -293,7 +264,7 @@ public class PgQt extends AppCompatActivity {
             else if(this_day_moment > 6  || this_day_moment <= 12) day_moment = "Mattina";
             else if(this_day_moment > 12  || this_day_moment <= 18) day_moment = "Pomeriggio";
             else if(this_day_moment > 18  || this_day_moment <= 24) day_moment = "Sera";
-            currentQuestion.setAnswer(answerIsPresent(day_moment));
+            //currentQuestion.setAnswer(answerIsPresent(day_moment));
         }
 
         else if(index == 4) currentQuestion.setAnswer(risp.equals(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH))));
@@ -422,13 +393,6 @@ public class PgQt extends AppCompatActivity {
         index++;
     }
 
-    private boolean answerIsPresent(String answer)
-    {
-        for (int i=0; i< totalRisp.length; i++) {
-            if (answer.equals(totalRisp[i])) return true;
-        }
-        return false;
-    }
 
     public void btnPlayPressed(View view){
         try {

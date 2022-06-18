@@ -63,7 +63,7 @@ public class NewProfile extends AppCompatActivity {
                 if(profileData.get("Name").isEmpty() || profileData.get("Surname").isEmpty() || profileData.get("Job").isEmpty() || profileData.get("Birthplace").isEmpty() || profileData.get("Birthday_day").isEmpty())
                     Toast.makeText(getApplicationContext(), "Insert your personal data!", Toast.LENGTH_LONG).show();
                 else
-                    startActivity(new Intent(NewProfile.this, PgQt.class));
+                    startActivity(new Intent(NewProfile.this, PgQt.class).putExtra("profileData", profileData));
             }
         });
 

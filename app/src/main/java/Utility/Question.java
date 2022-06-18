@@ -1,14 +1,18 @@
 package Utility;
 
+import java.util.ArrayList;
+
 public class Question {
     private String name;        // Question phrase
     private String filePath;    // Where to find the file
     private String language;    // Response's Language
     private boolean answer;
+    private String[] answers ;
 
-    public Question(String name, String filePath){
+    public Question(String name, String filePath, String[] list){
         this.name = name;
         this.filePath = filePath;
+        this.answers = list;
     }
 
     public String getName(){ return name; }
