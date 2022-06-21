@@ -31,7 +31,7 @@ public class NewProfile extends AppCompatActivity {
     Button dateButton;
     TextView dateTextView;
     Calendar calendar1;
-    int yearr; int monthh; int datee;
+    int year; int month; int date;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -61,7 +61,7 @@ public class NewProfile extends AppCompatActivity {
                 Log.i(TAG, TAG + ": OnClick");
 
                 if(profileData.get("Name").isEmpty() || profileData.get("Surname").isEmpty() || profileData.get("Job").isEmpty() || profileData.get("Birthplace").isEmpty() || profileData.get("Birthday_day").isEmpty())
-                    Toast.makeText(getApplicationContext(), "Insert your personal data!", Toast.LENGTH_LONG).show();
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Insert your personal data!", Toast.LENGTH_LONG).show());
                 else
                     startActivity(new Intent(NewProfile.this, PgQt.class).putExtra("profileData", profileData));
             }
@@ -83,12 +83,11 @@ public class NewProfile extends AppCompatActivity {
                 calendar1.set(Calendar.YEAR, year);
                 calendar1.set(Calendar.MONTH, month);
                 calendar1.set(Calendar.DATE, date);
-                yearr=year;
-                monthh=month;
-                datee=date;
+                NewProfile.this.year =year;
+                NewProfile.this.month =month;
+                NewProfile.this.date =date;
                 String dateText = DateFormat.format("EEEE, MMM d, yyyy", calendar1).toString();
-
-                dateTextView.setText(dateText);
+                runOnUiThread(() -> dateTextView.setText(dateText));
             }
         }, YEAR, MONTH, DATE);
 
@@ -100,11 +99,9 @@ public class NewProfile extends AppCompatActivity {
         profileData.put("Surname", et_surname.getText().toString());
         profileData.put("Job", et_job.getText().toString() );
         profileData.put("Birthplace", et_birthplace.getText().toString() );
-        profileData.put("Birthday_day", String.valueOf(yearr));
-        profileData.put("Birthday_month", String.valueOf(monthh));
-        profileData.put("Birthday_year", String.valueOf(datee));
+        profileData.put("Birthday_day", String.valueOf(year));
+        profileData.put("Birthday_month", String.valueOf(month));
+        profileData.put("Birthday_year", String.valueOf(date));
         System.out.println(profileData);
     }
-
-    public HashMap<String, String> getProfileData(){ return profileData;}
 }

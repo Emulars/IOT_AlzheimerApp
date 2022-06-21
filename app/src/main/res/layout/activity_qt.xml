@@ -7,17 +7,6 @@
     android:background="@drawable/sfondo_qt">
 
     <TextView
-        android:id="@+id/tv_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/question1"
-        android:textAlignment="center"
-        android:paddingHorizontal="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="50dp">
-    </TextView>
-
-    <TextView
         android:id="@+id/tv_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,16 +27,6 @@
         android:background="@drawable/microfono_btsu"
         android:paddingTop="100dp"
         android:onClick="btnRecordPressed"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/btt_stop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="100dp"
-        android:layout_marginLeft="100dp"
-        android:text="Stop"
-        android:onClick="btnStopPressed"
         android:visibility="gone"/>
 
     <Button

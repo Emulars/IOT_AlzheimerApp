@@ -1,8 +1,5 @@
 package Utility;
 
-import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Question {
@@ -46,12 +43,10 @@ public class Question {
                 name.equals("Pronuncia un numero da 1 a 20") || name.equals("Che oggetto è ? (1)") || name.equals("Che oggetto è ? (2)")){
             for(String s : answers ){
                 if(risp.equals(s)){
-                    isAnswer = true;
-                    return isAnswer;
+                    return isAnswer = true;
                 }
             }
-            isAnswer = true;
-            return false;
+            return isAnswer = false;
         }
 
         //risp 2 - 3 - 5
@@ -59,12 +54,10 @@ public class Question {
             int number = Integer.parseInt(answers[0]);
             for(String s : resultsHMda1a20.get(number)) {
                 if(s.equals(risp)){
-                    isAnswer = true;
-                    return isAnswer;
+                    return isAnswer = true;
                 }
             }
-            isAnswer = false;
-            return isAnswer;
+            return isAnswer = false;
         }
 
         //risp 9
@@ -72,16 +65,12 @@ public class Question {
             int number = Integer.parseInt(answers[0]);
             for(String s : resultsHManni.get(number)) {
                 if(s.equals(risp)){
-                    isAnswer = true;
-                    return isAnswer;
+                    return isAnswer = true;
                 }
             }
-            isAnswer = false;
-            return isAnswer;
+            return isAnswer = false;
         }
-
-        isAnswer = false;
-        return false;
+        return isAnswer = false;
     }
 
 

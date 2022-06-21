@@ -10,10 +10,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -30,20 +30,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bttNewProfile = findViewById(R.id.btt_start);
-        bttNewProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Check for Internet Connection
-                if (isConnected()) {
-                    Toast.makeText(getApplicationContext(), "Internet Connected", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                }
-                if(CheckPermissions()) {
-                    startActivity(new Intent(MainActivity.this, NewProfile.class));
-                }
-                else { RequestPermissions(); }
+        bttNewProfile.setOnClickListener(view -> {
+            // Check for Internet Connection
+            if (isConnected()) {
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Internet Connected", Toast.LENGTH_SHORT).show());
+            } else {
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show());
             }
+            if(CheckPermissions()) {
+                startActivity(new Intent(MainActivity.this, NewProfile.class));
+            }
+            else { RequestPermissions(); }
         });
     }
 
@@ -62,29 +59,26 @@ public class MainActivity extends AppCompatActivity {
             ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nInfo = cm.getActiveNetworkInfo();
             connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-            return connected;
         } catch (Exception e) {
-            Log.e("Connectivity Exception", e.getMessage());
+            Log.e(TAG, "Connectivity Exception".concat(e.getMessage()));
         }
         return connected;
     }
 
     //Richiesta permessi on the fly
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_AUDIO_PERMISSION_CODE:
-                if (grantResults.length > 0) {
-                    boolean permissionToRecord = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean permissionToStore = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    if (permissionToRecord && permissionToStore) {
-                        Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_LONG).show();
-                    }
+        if (requestCode == REQUEST_AUDIO_PERMISSION_CODE) {
+            if (grantResults.length > 0) {
+                boolean permissionToRecord = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                boolean permissionToStore = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                if (permissionToRecord && permissionToStore) {
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_LONG).show());
+                } else {
+                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_LONG).show());
                 }
-                break;
+            }
         }
     }
 
