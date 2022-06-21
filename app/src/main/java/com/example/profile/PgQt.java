@@ -107,6 +107,10 @@ public class PgQt extends AppCompatActivity {
             filePath = currentQuestion.getFilePath();
         }
         // TODO: else arrivato alla fine cambio schermato con resoconto
+        else
+        {
+            startActivity(new Intent(PgQt.this, Report.class).putExtra("report_data", questions));
+        }
 
         // Disable Stop and Play button
         btt_play.setEnabled(false);

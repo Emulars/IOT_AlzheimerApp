@@ -47,24 +47,16 @@ public class NewProfile extends AppCompatActivity {
         dateButton = findViewById(R.id.dateButton);
         dateTextView = findViewById(R.id.dateTextView);
 
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleDateButton();
-            }
-        });
+        dateButton.setOnClickListener(view -> handleDateButton());
 
-        bttStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fillProfile();
-                Log.i(TAG, TAG + ": OnClick");
+        bttStart.setOnClickListener(view -> {
+            fillProfile();
+            Log.i(TAG, TAG + ": OnClick");
 
-                /*if(profileData.get("Name").isEmpty() || profileData.get("Surname").isEmpty() || profileData.get("Job").isEmpty() || profileData.get("Birthplace").isEmpty() || profileData.get("Birthday_day").isEmpty())
-                    runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Insert your personal data!", Toast.LENGTH_LONG).show());
-                else*/
-                    startActivity(new Intent(NewProfile.this, PgQt.class).putExtra("profileData", profileData));
-            }
+            if(profileData.get("Name").isEmpty() || profileData.get("Surname").isEmpty() || profileData.get("Job").isEmpty() || profileData.get("Birthplace").isEmpty() || profileData.get("Birthday_day").isEmpty())
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Insert your personal data!", Toast.LENGTH_LONG).show());
+            else
+                startActivity(new Intent(NewProfile.this, PgQt.class).putExtra("profileData", profileData));
         });
 
     }
@@ -75,20 +67,16 @@ public class NewProfile extends AppCompatActivity {
         int MONTH = calendar.get(Calendar.MONTH);
         int DATE = calendar.get(Calendar.DATE);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int date,  int month, int year ) {
-
-                calendar1 = Calendar.getInstance();
-                calendar1.set(Calendar.YEAR, year);
-                calendar1.set(Calendar.MONTH, month);
-                calendar1.set(Calendar.DATE, date);
-                NewProfile.this.year =year;
-                NewProfile.this.month =month;
-                NewProfile.this.date =date;
-                String dateText = DateFormat.format("EEEE, MMM d, yyyy", calendar1).toString();
-                runOnUiThread(() -> dateTextView.setText(dateText));
-            }
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, date, month, year) -> {
+            calendar1 = Calendar.getInstance();
+            calendar1.set(Calendar.YEAR, year);
+            calendar1.set(Calendar.MONTH, month);
+            calendar1.set(Calendar.DATE, date);
+            NewProfile.this.year =year;
+            NewProfile.this.month =month;
+            NewProfile.this.date =date;
+            String dateText = DateFormat.format("EEEE, MMM d, yyyy", calendar1).toString();
+            runOnUiThread(() -> dateTextView.setText(dateText));
         }, YEAR, MONTH, DATE);
 
         datePickerDialog.show();

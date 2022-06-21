@@ -1,8 +1,9 @@
 package Utility;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Question {
+public class Question implements Serializable {
     private String name;        // Question phrase
     private String filePath;    // Where to find the file
     private String language;    // Response's Language
