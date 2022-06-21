@@ -18,6 +18,22 @@
         android:textColor="@color/white"
         android:textAlignment="center"></TextView>
 
+    <ImageView
+        android:id="@+id/object1"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/object_1"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/object2"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/object_2"
+        android:visibility="gone"/>
+
     <ImageButton
         android:id="@+id/btt_mic"
         android:layout_width="wrap_content"
@@ -25,7 +41,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="35dp"
         android:background="@drawable/microfono_btsu"
-        android:paddingTop="100dp"
+        android:paddingTop="90dp"
         android:onClick="btnRecordPressed"
         android:visibility="gone"/>
 

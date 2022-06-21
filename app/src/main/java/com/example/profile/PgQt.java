@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,7 @@ public class PgQt extends AppCompatActivity {
 
     private final String TAG = "PgQt";
     TextView tv_question = null;
+    ImageView image1, image2 = null;
     Button btt_play, btt_next= null;
     ImageButton btt_record;
     boolean isRecording=false;
@@ -69,6 +72,8 @@ public class PgQt extends AppCompatActivity {
         btt_record = findViewById(R.id.btt_mic);
         btt_play =  findViewById(R.id.btt_play);
         btt_next =  findViewById(R.id.btt_next);
+        image1 = findViewById(R.id.object1);
+        image2 = findViewById(R.id.object2);
 
         Intent i = getIntent();
         profileData = (HashMap<String, String>)i.getSerializableExtra("profileData");
@@ -87,6 +92,17 @@ public class PgQt extends AppCompatActivity {
         if(questionIterator.hasNext())
         {
             currentQuestion = (Question) questionIterator.next();
+
+            if(currentQuestion.getName().equals("Che oggetto è ? (1)"))
+                image1.setVisibility(View.VISIBLE);
+            else
+                image1.setVisibility(View.GONE);
+
+            if(currentQuestion.getName().equals("Che oggetto è ? (2)"))
+                image2.setVisibility(View.VISIBLE);
+            else
+                image2.setVisibility(View.GONE);
+
             tv_question.setText(currentQuestion.getName());
             filePath = currentQuestion.getFilePath();
         }

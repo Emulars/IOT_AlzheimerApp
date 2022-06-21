@@ -60,9 +60,9 @@ public class NewProfile extends AppCompatActivity {
                 fillProfile();
                 Log.i(TAG, TAG + ": OnClick");
 
-                if(profileData.get("Name").isEmpty() || profileData.get("Surname").isEmpty() || profileData.get("Job").isEmpty() || profileData.get("Birthplace").isEmpty() || profileData.get("Birthday_day").isEmpty())
+                /*if(profileData.get("Name").isEmpty() || profileData.get("Surname").isEmpty() || profileData.get("Job").isEmpty() || profileData.get("Birthplace").isEmpty() || profileData.get("Birthday_day").isEmpty())
                     runOnUiThread(() -> Toast.makeText(getApplicationContext(), "Insert your personal data!", Toast.LENGTH_LONG).show());
-                else
+                else*/
                     startActivity(new Intent(NewProfile.this, PgQt.class).putExtra("profileData", profileData));
             }
         });
