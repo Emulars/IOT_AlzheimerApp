@@ -43,7 +43,7 @@ public class Question {
                 name.equals("Data inizio della seconda guerra mondiale ?") || name.equals("Data fine della seconda guerra mondiale ?") ||
                 name.equals("Chi è l'attuale presidente della Repubblica") || name.equals("Chi è l'attuale Papa ?") ||
                 name.equals("Ripetere il nome il fornito in precedenza") || name.equals("Pronuncia un mese dell'anno") ||
-                name.equals("Pronuncia un numero da 1 a 20")){
+                name.equals("Pronuncia un numero da 1 a 20") || name.equals("Che oggetto è ? (1)") || name.equals("Che oggetto è ? (2)")){
             for(String s : answers ){
                 if(risp.equals(s)){
                     isAnswer = true;
@@ -117,7 +117,7 @@ public class Question {
         results.put(28, new String[]{"Ventotto", "Twenty_Eight", "Vingt_Huit"});
         results.put(29, new String[]{"Ventinove", "Twenty_Nine", "Vingt_Neuf"});
         results.put(30, new String[]{"Trenta", "Thirty", "Trente"});
-        results.put(30, new String[]{"Trentuno", "Thirty_One", "Trente_Et_Un"});
+        results.put(31, new String[]{"Trentuno", "Thirty_One", "Trente_Et_Un"});
 
         return results;
     }

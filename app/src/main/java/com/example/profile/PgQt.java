@@ -80,8 +80,8 @@ public class PgQt extends AppCompatActivity {
                                                                                             "Winter", "Spring", "Summer", "Autumn",
                                                                                             "Hiver", "Printemps", "Ete", "Tomber"}));
         q.add(new Question("In che anno siamo ?", "year", new String[]{String.valueOf(calendar.get(Calendar.YEAR))}));
-        q.add(new Question("Che oggetto è ? (1)", "object_1", new String[]{}));
-        q.add(new Question("Che oggetto è ? (2)", "object_2", new String[]{}));
+        q.add(new Question("Che oggetto è ? (1)", "object_1", new String[]{"Palla", "Ball", "Ballon"}));
+        q.add(new Question("Che oggetto è ? (2)", "object_2", new String[]{"Matita", "Pencil", "Crayon"}));
 
         q.add(new Question("Ricordati questo nome: \'Mario\', ti verrà richiesto in seguito", "name_ta", new String[]{"Mario"}));
         //q.add(new Question("Ricordati questo indirizzo: \'Via Bobbio\', ti verrà richiesto in seguito", "street_ta", new String[]{"Via Bobbio"}));
@@ -114,8 +114,10 @@ public class PgQt extends AppCompatActivity {
     private String inizialateEge(){
         int currente_YEAR = calendar.get(Calendar.YEAR);
         int year_of_person = Integer.parseInt(profileData.get("Birthday_year"));
-        Log.i(TAG + "inizialateEge: ", String.valueOf(currente_YEAR - year_of_person));
-        return String.valueOf(currente_YEAR - year_of_person);
+        //Log.i(TAG + "inizialateEge: ", String.valueOf(currente_YEAR - year_of_person));
+        int result = currente_YEAR - year_of_person;
+        if(result < 1) result = 1;
+        return String.valueOf(result);
     }
 
     @Override
@@ -238,180 +240,6 @@ public class PgQt extends AppCompatActivity {
         }
         // Enable Stop button
     }
-
-    //todo: rimuovere
-    //funzione che prende la stringa che viene dal server
-    public void resultServerAnalyze(String output)
-    {
-        String[] st = output.split(" ");
-
-        //---------------------------------------------
-        //LINGUA
-        String lang = st[0];
-        Log.i(TAG, lang);
-        currentQuestion.setLanguage(lang);
-        if(lang.equals("IT")) Toast.makeText(this, "Language: Italiano", Toast.LENGTH_LONG).show();
-        else if(lang.equals("EN")) Toast.makeText(this, "Language: Inglese", Toast.LENGTH_LONG).show();
-        else if(lang.equals("FR")) Toast.makeText(this, "Language: Francese", Toast.LENGTH_LONG).show();
-
-        //---------------------------------------------
-        //RISPOSTA
-        String risp = st[1];
-        Log.i(TAG, risp);
-
-        //Inizializzo variabili per rispondere alle domande
-        Calendar calendar = Calendar.getInstance();
-        //acquisisco profileData da NewProfile
-        Intent i = getIntent();
-        HashMap<String, String> profileData = (HashMap<String, String>)i.getSerializableExtra("profileData");
-        //Log.i(TAG, "profileData: "+profileData.get("Birthday_year"));
-
-        if(index == 0) currentQuestion.setAnswer(risp.equals(profileData.get("Name")));
-
-        else if(index == 1) {
-            int currente_YEAR = calendar.get(Calendar.YEAR);
-            int year_of_person = Integer.parseInt(profileData.get("Birthday_year"));
-            currentQuestion.setAnswer(risp.equals(currente_YEAR - year_of_person));
-        }
-
-        else if(index == 2) currentQuestion.setAnswer(risp.equals(String.valueOf(calendar.get(Calendar.HOUR_OF_DAY))));
-
-        else if(index == 3){
-            int this_day_moment = calendar.get(Calendar.HOUR_OF_DAY);
-            String day_moment = "";
-            if(this_day_moment > 00 || this_day_moment <= 6) day_moment = "Notte";
-            else if(this_day_moment > 6  || this_day_moment <= 12) day_moment = "Mattina";
-            else if(this_day_moment > 12  || this_day_moment <= 18) day_moment = "Pomeriggio";
-            else if(this_day_moment > 18  || this_day_moment <= 24) day_moment = "Sera";
-            //currentQuestion.setAnswer(answerIsPresent(day_moment));
-        }
-
-        else if(index == 4) currentQuestion.setAnswer(risp.equals(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH))));
-
-        else if(index == 5) {
-            int this_DAY_OF_WEEK = calendar.get(Calendar.DAY_OF_WEEK);
-            String giorno = "";
-
-            if(this_DAY_OF_WEEK == Calendar.SUNDAY) giorno = "Domenica";
-            else if(this_DAY_OF_WEEK == Calendar.MONDAY) giorno = "Lunedi";
-            else if(this_DAY_OF_WEEK == Calendar.TUESDAY) giorno = "Martedi";
-            else if(this_DAY_OF_WEEK == Calendar.WEDNESDAY) giorno = "Mercoledi";
-            else if(this_DAY_OF_WEEK == Calendar.THURSDAY) giorno = "Giovedi";
-            else if(this_DAY_OF_WEEK == Calendar.FRIDAY) giorno = "Venerdi";
-            else if(this_DAY_OF_WEEK == Calendar.SATURDAY) giorno = "Sabato";
-
-            currentQuestion.setAnswer(risp.equals(giorno));
-        }
-
-        else if(index == 6){
-            int this_MONTH = calendar.get(Calendar.MONTH);
-            String mese = "";
-
-            if(this_MONTH == Calendar.JANUARY) mese = "Gennaio";
-            else if(this_MONTH == Calendar.FEBRUARY) mese = "Febbraio";
-            else if(this_MONTH == Calendar.MARCH) mese = "Marzo";
-            else if(this_MONTH == Calendar.APRIL) mese = "Aprile";
-            else if(this_MONTH == Calendar.MAY) mese = "Marzo";
-            else if(this_MONTH == Calendar.JUNE) mese = "Giugno";
-            else if(this_MONTH == Calendar.JULY) mese = "Luglio";
-            else if(this_MONTH == Calendar.AUGUST) mese = "Agosto";
-            else if(this_MONTH == Calendar.SEPTEMBER) mese = "Settembre";
-            else if(this_MONTH == Calendar.OCTOBER) mese = "Ottobre";
-            else if(this_MONTH == Calendar.NOVEMBER) mese = "Novembre";
-            else if(this_MONTH == Calendar.DECEMBER) mese = "Dicembre";
-
-            currentQuestion.setAnswer(risp.equals(mese));
-        }
-
-        else if(index == 7){
-            int this_MONTH = calendar.get(Calendar.MONTH);
-            String stagione = "";
-
-            if(this_MONTH >= 0 && this_MONTH <= 2) stagione = "Inverno";
-            if(this_MONTH >= 3 && this_MONTH <= 6) stagione = "Primavera";
-            if(this_MONTH >= 7 && this_MONTH <= 9) stagione = "Estate";
-            if(this_MONTH >= 10 && this_MONTH <= 12) stagione = "Autunno";
-
-            currentQuestion.setAnswer(risp.equals(stagione));
-        }
-
-        else if(index == 8){
-            int this_YEAR = calendar.get(Calendar.YEAR);
-            String year = "";
-            if(risp.equals("Duemilaventidue")) year = "Duemilaventidue";
-            if(risp.equals("Two_Thousand_Twenty_Two")) year = "Two_Thousand_Twenty_Two";
-            currentQuestion.setAnswer(risp.equals(year));
-        }
-
-        else if(index == 9){
-            //oggetto 1
-        }
-
-        else if(index == 10){
-            //oggetto 2
-        }
-
-        else if(index == 13){
-            String Birthday_year = "";
-            if(profileData.get("Birthday_year").equals("2000")) Birthday_year = "Duemila";
-            currentQuestion.setAnswer(risp.equals(Birthday_year));
-        }
-
-        else if(index == 14){
-            String myBirthplace = profileData.get("Birthplace");
-            currentQuestion.setAnswer(risp.equals(myBirthplace));
-        }
-
-        else if(index == 15){
-            String myJob = profileData.get("Job");
-            currentQuestion.setAnswer(risp.equals(myJob) );
-        }
-
-        else if(index == 16){
-            currentQuestion.setAnswer(risp.equals("Millenovecentoquattordici"));
-        }
-
-        else if(index == 17){
-            currentQuestion.setAnswer(risp.equals("Millenovecentodiciotto"));
-        }
-
-        else if(index == 18){
-            currentQuestion.setAnswer(risp.equals("Millenovecentotrentanove"));
-        }
-
-        else if(index == 19){
-            currentQuestion.setAnswer(risp.equals("Millenovecentoquarantacinque"));
-        }
-
-        else if(index == 20){
-            //OK per tutte le lingie
-            currentQuestion.setAnswer(risp.equals("Napolitano"));
-        }
-
-        else if(index == 21){
-            //OK per tutte le lingie
-            currentQuestion.setAnswer(risp.equals("Giovanni_Paolo_Secondo"));
-        }
-
-
-        else if(index == 22){
-            //OK per tutte le lingie
-            currentQuestion.setAnswer(risp.equals("Mario"));
-        }
-
-        else if(index == 23){
-            //OK per tutte le lingie
-            currentQuestion.setAnswer(risp.equals("Via Bobbio"));
-        }
-
-        /*Elenca i mesi dell'anno al contrario", "reverse_month
-        "Conta da 1 a 20", "numbers"
-        "Conta da 20 a 1", "reverse_numbers"*/
-
-        Log.i(TAG, "Answer: "+questions.get(index).getAnswer());
-        index++;
-    }
-
 
     public void btnPlayPressed(View view){
         try {
