@@ -1,5 +1,7 @@
 package com.example.profile;
 
+import static java.lang.Math.abs;
+
 import android.Manifest;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -61,9 +63,9 @@ public class PgQt extends AppCompatActivity {
     HashMap<String, String> profileData = new HashMap<String, String>();
 
     private void fillQuestions(ArrayList<Question> q){
-        q.add(new Question("Come ti chiami ?", "name", new String[]{ String.valueOf(profileData.get("Name")) } ));
+        q.add(new Question("Come ti chiami ?", "name", new String[]{ profileData.get("Name") } ));
         q.add(new Question("Quanti anni hai ?", "age", new String[] {inizialateEge()}));
-        q.add(new Question("Che ore sono ?", "time", new String[] {String.valueOf(calendar.get(Calendar.HOUR_OF_DAY))} ));
+        q.add(new Question("Che ore sono ?", "time", new String[] {String.valueOf(calendar.get(Calendar.HOUR))} ));
         q.add(new Question("In che momento del giorno siamo ? (Mattina, Pomeriggio, ...)", "day_moment", new String[] {"Notte", "Mattino", "Pomeriggio", "Sera",
                                                                                                                                     "Night", "Morning", "Afternoon", "Evening",
                                                                                                                                     "Nuit", "Matin", "Apres_midi", "Soir"}));
@@ -84,7 +86,9 @@ public class PgQt extends AppCompatActivity {
         q.add(new Question("Ricordati questo nome: \'Mario\', ti verrà richiesto in seguito", "name_ta", new String[]{"Mario"}));
         //q.add(new Question("Ricordati questo indirizzo: \'Via Bobbio\', ti verrà richiesto in seguito", "street_ta", new String[]{"Via Bobbio"}));
 
-        q.add(new Question("Quando sei natə ?", "birthday", new String[]{"Duemila", "Two_Thousand", "Deux_mille"}));
+        q.add(new Question("Quando sei natə ?", "birthday", new String[]{"Duemila", "Duemilaventi", "Duemilaventidue", "Duemilaventuno",
+                                                                                    "Two_Thousand", "Two_Thousand_Twenty", "Two_Thousand_Twenty_Two", "Two_Thousand_Twenty_One",
+                                                                                    "Deux_mille", "Deux_Mille_Vingt", "Deux_Mille_Vingt_Deux", "Deux_Mille_Vingt_Et_Un"} ));
         q.add(new Question("Dove sei natə ?", "birth_loc", new String[]{profileData.get("Birthplace")}));
         q.add(new Question("Che lavoro svogli/hai svolto ?", "job", new String[]{profileData.get("Job")} ));
         q.add(new Question("Data inizio della prima guerra mondiale ?", "wwo_1", new String[]{"Millenovecentoquattordici", "Nineteen_Hundred_Fourteen", "Mil_Neuf_Cent_Quatorze"}));
@@ -110,6 +114,7 @@ public class PgQt extends AppCompatActivity {
     private String inizialateEge(){
         int currente_YEAR = calendar.get(Calendar.YEAR);
         int year_of_person = Integer.parseInt(profileData.get("Birthday_year"));
+        Log.i(TAG + "inizialateEge: ", String.valueOf(currente_YEAR - year_of_person));
         return String.valueOf(currente_YEAR - year_of_person);
     }
 
@@ -175,8 +180,8 @@ public class PgQt extends AppCompatActivity {
                     isRecording=false;
                     // POST Request to Models' server
                     String output = null;
-                    /*try {
-                        output = new HttpPostAsyncTask().execute(   getString(R.string.server_url_local),       // strings[0] -> Service URL
+                    try {
+                        output = new HttpPostAsyncTask().execute(   getString(R.string.server_url_remote),       // strings[0] -> Service URL
                                 getString(R.string.server_charset),         // strings[1] -> Server charset
                                 getString(R.string.user_agent),             // strings[2] -> User agent
                                 "file",                                     // strings[3] -> Field name
@@ -185,12 +190,25 @@ public class PgQt extends AppCompatActivity {
                         e.printStackTrace();
                     }catch (InterruptedException e) {
                         e.printStackTrace();
-                    }*/
+                    }
 
-                    //Log.i(TAG, output);
 
+                    Log.i(TAG, output);
+                    HashMap<String, String> results = JSONStringToHashMap(output);
+                    String lang = results.get("language");
+                    String keyword = results.get("keyword");
+
+                    Log.i(TAG + "language: ", lang);
+                    currentQuestion.setLanguage(lang);
+                    if(lang.equals("IT")) Toast.makeText(this, "Language: Italiano", Toast.LENGTH_LONG).show();
+                    else if(lang.equals("EN")) Toast.makeText(this, "Language: Inglese", Toast.LENGTH_LONG).show();
+                    else if(lang.equals("FR")) Toast.makeText(this, "Language: Francese", Toast.LENGTH_LONG).show();
+
+
+                    Log.i(TAG + "keyword: ", results.get("keyword"));
                     // Check models results
                     //TODO: chiama currentQuestion
+                    currentQuestion.checkQuestion(keyword);
 
                 }else
                 {
@@ -221,6 +239,7 @@ public class PgQt extends AppCompatActivity {
         // Enable Stop button
     }
 
+    //todo: rimuovere
     //funzione che prende la stringa che viene dal server
     public void resultServerAnalyze(String output)
     {

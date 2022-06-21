@@ -77,7 +77,7 @@ public class NewProfile extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int date) {
+            public void onDateSet(DatePicker datePicker, int date,  int month, int year ) {
 
                 calendar1 = Calendar.getInstance();
                 calendar1.set(Calendar.YEAR, year);
