@@ -1,14 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@drawable/sfondoris"
     tools:context=".Report">
 
-    <Button
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HALO"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="110dp"
+        android:text="Report Finale"
+        android:textAlignment="center"
+        android:textColor="@color/purple_700"
+        android:textSize="30dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Numero di risposte corrette:"
+        android:textAlignment="center"
+        android:textSize="20dp"></TextView>
+
+    <TextView
+        android:id="@+id/correct_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="20dp"
+        android:paddingHorizontal="20dp"
+        android:text="@string/question"
+        android:textAlignment="center"
+        android:textColor="@color/green"
+        android:textSize="12dp"></TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Numero di risposte sbagliate:"
+        android:textAlignment="center"
+        android:textSize="20dp"></TextView>
+
+    <TextView
+        android:id="@+id/wrong_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="20dp"
+        android:paddingHorizontal="20dp"
+        android:text="@string/question"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="12dp"></TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Numero di risposte in italiano:"
+        android:textAlignment="center"
+        android:textSize="20dp"></TextView>
+
+    <TextView
+        android:id="@+id/it_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="20dp"
+        android:paddingHorizontal="20dp"
+        android:text="@string/question"
+        android:textSize="12dp"
+        android:textColor="@color/bluchiaro"
+        android:textAlignment="center"></TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Numero di risposte in francese:"
+        android:textAlignment="center"
+        android:textSize="20dp"></TextView>
+
+    <TextView
+        android:id="@+id/fr_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="20dp"
+        android:paddingHorizontal="20dp"
+        android:text="@string/question"
+        android:textSize="12dp"
+        android:textColor="@color/bluchiaro"
+        android:textAlignment="center"></TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Numero di risposte in inglese:"
+        android:textAlignment="center"
+        android:textSize="20dp"></TextView>
+
+    <TextView
+        android:id="@+id/en_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="20dp"
+        android:paddingHorizontal="20dp"
+        android:text="@string/question"
+        android:textSize="12dp"
+        android:textColor="@color/bluchiaro"
+        android:textAlignment="center"></TextView>
+
+    <TextView
+        android:id="@+id/final_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/question"
+        android:textSize="20dp"
+        android:textColor="@color/purple_700"
+        android:textAlignment="center"></TextView>
 
 </LinearLayout>

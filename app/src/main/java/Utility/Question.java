@@ -14,6 +14,7 @@ public class Question implements Serializable {
         this.name = name;
         this.filePath = filePath;
         this.answers = list;
+        this.isAnswer=false;
     }
 
     public String getName(){ return name; }

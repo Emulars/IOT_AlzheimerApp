@@ -7,8 +7,13 @@
         <entry key="..\:/OneDrive - unige.it/Universita/APP-MULTIMEDIA APP AND INTERNET OF THINGS - 84490/Pratica/AndroidStudioProjects/IOT_AlzheimerApp/app/src/main/res/layout/activity_new_profile.xml" value="0.25364583333333335" />
         <entry key="..\:/Progetti/Profile/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/Progetti/Profile/app/src/main/res/layout/activity_new_profile.xml" value="0.3484375" />
-        <entry key="..\:/Progetti/Profile/app/src/main/res/layout/activity_qt.xml" value="0.25" />
-        <entry key="..\:/Progetti/Profile/app/src/main/res/layout/activity_report.xml" value="0.29743589743589743" />
+        <entry key="..\:/Progetti/Profile/app/src/main/res/layout/activity_qt.xml" value="0.3273657289002558" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335321044921875" />
+        <entry key="app/src/main/res/layout/activity_new_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_qt.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_report.xml" value="0.22751312255859374" />
+        <entry key="app/src/main/res/layout/activity_report_pdf.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/report_pdf_layout.xml" value="0.1" />
       </map>
     </option>
   </component>
