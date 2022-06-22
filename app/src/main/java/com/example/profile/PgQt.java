@@ -34,7 +34,6 @@ import Utility.Question;
 
 public class PgQt extends AppCompatActivity {
 
-    private final String TAG = "PgQt";
     TextView tv_question = null;
     ImageView image1, image2 = null;
     Button btt_play, btt_next= null;
@@ -45,7 +44,7 @@ public class PgQt extends AppCompatActivity {
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
     String filePath = "";
-
+    private final String TAG = "PgQt";
     // Question
     Question currentQuestion = null;
     private final ArrayList<Question> questions = new ArrayList<>();

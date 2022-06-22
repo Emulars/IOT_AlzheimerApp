@@ -20,7 +20,7 @@ public class Report extends AppCompatActivity {
     Question currentQuestion;
     String filePath = "";
     TextView correct_answers, wrong_answers, it_answers, fr_answers, en_answers, final_message;
-    private final String TAG = "Report";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
