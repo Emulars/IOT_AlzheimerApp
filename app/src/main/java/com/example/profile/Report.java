@@ -51,10 +51,10 @@ public class Report extends AppCompatActivity {
         en_answers.setText(String.valueOf(en));
         wrong_answers.setText(String.valueOf(wrong));
         correct_answers.setText(String.valueOf(correct));
-        if(correct<=12){
+        if(correct<=15){
             final_message.setText("Forse dovresti rivolgerti ad uno specialista");
         }else if(correct<20){
-            final_message.setText("Puoi migliorare");
+            final_message.setText("Puoi migliorare, monitorati");
         }else {
             final_message.setText("Hai una memoria di ferro!");
         }
