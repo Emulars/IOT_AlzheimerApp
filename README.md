@@ -16,11 +16,11 @@ L'applicazione riconoscerà attraverso dei modelli di Machine Learning le rispos
 
 ## Architettura
 
-![Architettura](Presentation\Architettura.png)
+![Architettura](./Presentation/Architettura.png)
 
 ## Applicazione
 
-![Architettura](Presentation\Demo.png)
+![Applicazione](./Presentation/Demo.png)
 
 ## Altro
 
